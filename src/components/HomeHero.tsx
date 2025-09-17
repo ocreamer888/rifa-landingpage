@@ -9,14 +9,14 @@ export default function Home() {
     title={
       <div className="flex flex-col justify-top items-center leading-none tracking-tight text-balance w-full pt-40 md:pt-0">
         <div className="whitespace-nowrap font-sans uppercase font-semibold tracking-[-0.04em] text-[clamp(3.6rem,5vw,7rem)]">
-          Sorteo
+          ¡Ganate un
         </div>
         <div className="whitespace-nowrap flex items-baseline gap-3">
-          <span className="tracking-[-0.03em] text-[clamp(3.2rem,4.5vw,7rem)]">
+          <span className="tracking-[-0.03em] font-serif font-light text-[clamp(3.2rem,4.5vw,7rem)]">
             Viaje a
           </span>
-          <span className="font-playfair font-light italic tracking-[-0.06em] text-[clamp(3.2rem,4.5vw,7rem)]">
-            Colombia
+          <span className="font-serif font-light italic tracking-[-0.06em] text-[clamp(3.2rem,4.5vw,7rem)]">
+            Colombia!
           </span>
         </div>
       </div>
