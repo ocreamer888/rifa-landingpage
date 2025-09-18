@@ -3,7 +3,7 @@ import CardThree from "./CardThree"
 
 export default function DentalSection() {
     return (
-        <div className="relative flex flex-col items-center justify-between w-full bg-[#080808] py-20 px-4">
+        <div className="relative flex flex-col items-center justify-between w-full py-20 px-4">
             {/* Coffee Bean Decoration */}
             <div className="absolute top-8 right-8">
                 <Image 
@@ -15,7 +15,7 @@ export default function DentalSection() {
             </div>
 
             {/* Content */}
-            <div className="flex flex-col md:flex-row h-3/5 w-full items-center justify-around text-center gap-4">
+            <div className="flex flex-col md:flex-row h-3/5 w-full items-center justify-around text-center gap-4 backdrop-blur p-8 rounded-3xl bg-black/50">
                 {/* Section Title */}
                 <div className="flex flex-col w-full lg:w-2/5 justify-center items-center md:items-start md:justify-start gap-4">
                 <h2 

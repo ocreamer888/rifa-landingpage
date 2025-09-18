@@ -2,7 +2,7 @@ import Image from "next/image"
 
 export default function TripSection() {
     return (
-        <div className="relative bg-[#080808] py-20 px-4">
+        <div className="relative h-screen flex flex-col justify-center items-center px-4">
             {/* Orchid Decorations */}
             <div className="absolute inset-0 overflow-hidden">
                 {/* Orchid 1 */}
@@ -12,7 +12,7 @@ export default function TripSection() {
                     width={74}
                     height={72}
                     className="absolute"
-                    style={{ top: '0px', left: '34px' }}
+                    style={{ top: '0px', left: '200px' }}
                 />
                 {/* Orchid 3 */}
                 <Image 
@@ -80,7 +80,7 @@ export default function TripSection() {
             </div>
 
             {/* Content */}
-            <div className="relative z-10 max-w-md mx-auto text-center">
+            <div className="relative z-10 w-full h-4/5 md:h-3/5 mx-auto text-center backdrop-blur p-8 rounded-3xl bg-black/50">
                 {/* Section Title */}
                 <h2 
                     className="text-white mb-8"

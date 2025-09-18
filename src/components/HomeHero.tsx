@@ -21,14 +21,14 @@ export default function Home() {
     }
     description={
         <div className="font-sans w-full">
-          <p className="font-light ">
+          <p className="font-normal ">
           ¡Sé el ganador de un viaje todo incluido para ti y un acompañante a Colombia más un diseño de sonrisa!
           </p>
         </div>
       
     }
 
-    imageSrc="/Rifa-art-2.png"
+    imageSrc="/Rifa-art-1.png"
     imageSize={{
       mobile: "w-full h-full",
       tablet: ""
@@ -46,7 +46,7 @@ export default function Home() {
     buttonSize="md"
     buttonRounded="full"
     buttonUppercase={true}
-    buttonClassName="bg-orange-400 text-black hover:bg-black hover:text-orange-500 border border-white/90"
+    buttonClassName="bg-orange-400 text-white hover:bg-black hover:text-orange-500 border border-white/90"
     className="p-4 lg:p-12 h-screen"
     CardContentClassName="h-auto flex flex-col justify-center items-center text-white backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-lg bg-black/40"
     linkHref="#ticket-grid"

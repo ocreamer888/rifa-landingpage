@@ -35,7 +35,16 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body className={`${poppins.variable} ${playfairDisplay.variable}`}>
+      <body 
+        className={`${poppins.variable} ${playfairDisplay.variable} fixed-bg`}
+        style={{
+          backgroundImage: 'url("/Rifa-art-6.png")',
+          backgroundAttachment: 'fixed',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         {children}
       </body>
     </html>
