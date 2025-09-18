@@ -4,7 +4,7 @@ import Image from "next/image";
 
 interface HeroSecsProps {
   title?: React.ReactNode;
-  description?: string;
+  description?: string | React.ReactNode;
   buttonText?: React.ReactNode;
   imageSrc?: string;
   imageAlt?: string;
@@ -92,8 +92,8 @@ const getResponsiveVisibilityClasses = (props: {
   if (props.hideOnDesktop) classes.push('lg:hidden');
   
   // Show classes (override hide classes)
-  if (props.showOnMobile) classes.push('block sm:hidden');
-  if (props.showOnTablet) classes.push('hidden sm:block lg:hidden');
+  if (props.showOnMobile) classes.push('block lg:hidden');
+  if (props.showOnTablet) classes.push('hidden md:block lg:hidden');
   if (props.showOnDesktop) classes.push('hidden lg:block');
   
   return classes.join(' ');
@@ -173,7 +173,7 @@ const CardImage: React.FC<{
   
   return (
     <div className={`relative flex flex-col w-full z-10 h-full items-end p-2 lg:p-8 justify-center ${visibilityClasses}`}>
-           <div className='flex flex-col items-center justify-end w-full h-full overflow-hidden rounded-full'>
+           <div className='flex flex-col items-center justify-end w-full h-full overflow-hidden'>
         <Image
           src={src}
           alt={alt}
@@ -192,7 +192,7 @@ const CardImage: React.FC<{
 
 const CardContent: React.FC<{ 
   title: React.ReactNode; 
-  description?: string | undefined; 
+  description?: string | React.ReactNode | undefined; 
   buttonText: React.ReactNode; 
   linkHref: string;
   CardContentClassName?: string | undefined;
@@ -216,9 +216,9 @@ const CardContent: React.FC<{
   const desktopDefault = "relative bg-purple-100 cursor-pointer hover:bg-purple-200 text-purple-900 font-bold px-8 py-4 rounded-full transition-colors duration-200";
   
   return (
-    <div className={`z-20 rounded-3xl flex flex-col justify-center items-center md:items-start gap-4 ${visibilityClasses} ${CardContentClassName}`}>
-      <h2 id="card-title" className="text-center md:text-start text-balance font-semibold text-5xl lg:text-7xl px-2 md:px-0">{title}</h2>
-      {description && <p className="text-xl text-center md:text-start">{description}</p>}
+    <div className={`z-20 rounded-3xl flex flex-col justify-center items-center lg:items-start gap-4 ${visibilityClasses} ${CardContentClassName}`}>
+      <h2 id="card-title" className="text-center text-balance font-semibold text-5xl lg:text-7xl px-2 md:px-0">{title}</h2>
+      {description && <div className="text-xl text-center lg:text-start">{description}</div>}
       <a
         href={linkHref}
         onClick={buttonOnClick}
@@ -335,13 +335,13 @@ class HeroSecs extends React.Component<HeroSecsProps> {
             src={backgroundImage}
             alt="Background image"
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            quality={80}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
+            quality={100}
             loading="lazy"
             className={`relative object-top object-cover rounded-b-3xl backdrop-blur ${getResponsiveVisibilityClasses(finalBackgroundVisibility)}`}
           />
         )}
-        <div className={`relative flex flex-col sm:landscape:flex-row md:flex-row overflow-hidden justify-center items-center ${className} ${backDropBlur} ${backgroundColor}`} role="region" aria-labelledby="card-title">      
+        <div className={`relative flex flex-col sm:landscape:flex-row lg:flex-row overflow-hidden justify-center items-center ${className} ${backDropBlur} ${backgroundColor}`} role="region" aria-labelledby="card-title">      
         <div className='relative sm:landscape:relative md:relative order-1 sm:landscape:order-1 md:order-1 flex flex-col flex-1 h-auto sm:landscape:h-auto justify-center items-center'>
           {title && linkHref && buttonText && CardContentClassName && (
             <CardContent 
@@ -360,7 +360,7 @@ class HeroSecs extends React.Component<HeroSecsProps> {
             />
           )}
         </div>
-        <div className='relative flex flex-col w-full sm:hidden md:block order-2 sm:landscape:order-2 md:order-2 sm:landscape:flex-1 flex-1  sm:landscape:h-auto justify-center items-center'>
+        <div className='relative flex flex-col w-full lg:block order-2 sm:landscape:order-2 md:order-2 sm:landscape:flex-1 flex-1 sm:landscape:h-auto justify-center items-center'>
           {imageSrc && imageAlt && CardImageClassName && (
             <CardImage 
               src={imageSrc} 
