@@ -372,6 +372,36 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
     try {
       console.log('Starting SDK initialization...');
 
+      // Get token first
+      let token;
+      try {
+        console.log('Retrieving Tilopay token...');
+        const response = await fetch('/api/tilopay-token', {
+          method: 'POST'
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const tokenData = await response.json();
+        console.log('Token response:', tokenData);
+        
+        if (!tokenData.access_token) {
+          throw new Error('No access token received');
+        }
+        
+        token = tokenData.access_token;
+        console.log('Token retrieved successfully, length:', token.length);
+      } catch (tokenError) {
+        console.error('Token retrieval failed:', tokenError);
+        setUiState(prev => ({ 
+          ...prev, 
+          response: { error: 'Failed to authenticate with Tilopay. Please check your credentials.' } 
+        }));
+        return;
+      }
+
       // Create container and elements
       const container = createSDKContainer();
       document.body.appendChild(container);
@@ -383,9 +413,9 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       // Wait for elements to be stable
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      // Initialize with empty token - let SDK handle authentication
+      // Initialize with the real token
       const config: TilopayConfig = {
-        token: '', // Empty token - SDK handles authentication internally
+        token: token, // Use the real token
         currency: 'USD',
         language: 'es',
         amount: order?.total_amount || 1,
@@ -407,10 +437,18 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
         returnData: 'W2N1c3RvbV9wYXJhbWV0ZXJfYSA9PiAidmFsb3IgZGUgYSIsY3VzdG9tX3BhcmFtZXRlcl9iID0+ICJ2YWxvciBkZSBiIl0='
       };
 
-      console.log('Calling Tilopay.Init with config:', config);
+      console.log('Calling Tilopay.Init with config:', {
+        ...config,
+        token: token ? `${token.substring(0, 10)}...` : 'empty'
+      });
       
       const initialize = await window.Tilopay.Init(config);
       console.log('SDK initialized successfully:', initialize);
+
+      // Check if initialization was successful
+      if (initialize.message === 'Faltan parametros de inicialización') {
+        throw new Error('SDK initialization failed: Missing parameters');
+      }
 
       // Store results in refs
       sdkStateRef.current.paymentMethods = initialize.methods;
