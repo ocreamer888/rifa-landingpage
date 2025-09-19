@@ -148,13 +148,8 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
     const container = document.createElement('div');
     container.id = 'tilopay-sdk-container';
     container.style.position = 'fixed';
-    container.style.left = '-9999px';
-    container.style.top = '-9999px';
-    container.style.width = '400px';
-    container.style.height = 'auto';
-    container.style.visibility = 'visible';
-    container.style.opacity = '1';
-    container.style.zIndex = '1';
+    container.style.width = '100%';
+    container.style.display = 'block';
     container.style.pointerEvents = 'none';
     return container;
   }, []);
@@ -273,7 +268,7 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
 
     // Create phone number div
     const phoneDiv = createElement('div', 'tlpy_phone_number_div', mainContainer) as HTMLDivElement;
-    phoneDiv.style.display = 'none';
+    phoneDiv.style.display = 'block';
     phoneDiv.style.width = '100%';
     elements.phoneDiv = phoneDiv;
 
@@ -417,7 +412,7 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       // Initialize with the real token
       const config: TilopayConfig = {
         token: token, // Use the real token
-        currency: 'USD',
+        currency: 'CRC', // Change from 'USD' to 'CRC'
         language: 'es',
         amount: order?.total_amount || 1,
         billToFirstName: 'Jose',
@@ -435,7 +430,11 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
         redirect: `${window.location.origin}/payment-success`,
         subscription: 0,
         hashVersion: 'V2',
-        returnData: 'W2N1c3RvbV9wYXJhbWV0ZXJfYSA9PiAidmFsb3IgZGUgYSIsY3VzdG9tX3BhcmFtZXRlcl9iID0+ICJ2YWxvciBkZSBiIl0='
+        returnData: 'W2N1c3RvbV9wYXJhbWV0ZXJfYSA9PiAidmFsb3IgZGUgYSIsY3VzdG9tX3BhcmFtZXRlcl9iID0+ICJ2YWxvciBkZSBiIl0=',
+        // Add these parameters that might be needed for Sinpe
+        phoneYappy: '+50661038888', // Required for Sinpe
+        typeDni: 1, // Required for Costa Rica
+        dni: '123456789' // Required for Costa Rica
       };
 
       console.log('Calling Tilopay.Init with config:', {
@@ -445,6 +444,8 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       
       const initialize = await window.Tilopay.Init(config);
       console.log('SDK initialized successfully:', initialize);
+      console.log('Payment methods received:', initialize.methods);
+      console.log('Cards received:', initialize.cards);
 
       // Check if initialization was successful
       if (initialize.message === 'Faltan parametros de inicialización') {
@@ -716,6 +717,17 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
         <p className="text-sm text-gray-600">Números: {selectedTickets.join(', ')}</p>
         <p className="text-lg font-bold text-gray-800">Total: ${order?.total_amount}</p>
       </div>
+
+      {/* Debug Payment Methods */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mb-4 p-3 bg-yellow-100 border border-yellow-300 rounded">
+          <h4 className="font-semibold text-yellow-800 mb-2">Debug - Payment Methods:</h4>
+          <p>Count: {sdkStateRef.current.paymentMethods.length}</p>
+          <pre className="text-xs text-yellow-700 overflow-auto">
+            {JSON.stringify(sdkStateRef.current.paymentMethods, null, 2)}
+          </pre>
+        </div>
+      )}
 
       {/* Payment Method Selection */}
       <div>
