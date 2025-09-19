@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabaseClient';
 interface TilopayMethod {
   id: string;
   name: string;
+  type?: string; // Add this line
 }
 
 interface TilopayCard {
