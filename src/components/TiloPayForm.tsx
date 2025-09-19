@@ -17,7 +17,8 @@ interface TilopayCard {
 interface TilopayInitResponse {
   methods: TilopayMethod[];
   cards: TilopayCard[];
-  message?: string; // Add this optional property
+  message?: string;
+  sinpemovil?: Record<string, unknown>; // Add this line
 }
 
 interface TilopayConfig {
@@ -446,19 +447,34 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       console.log('SDK initialized successfully:', initialize);
       console.log('Payment methods received:', initialize.methods);
       console.log('Cards received:', initialize.cards);
+      console.log('Sinpe Móvil data:', initialize.sinpemovil);
 
       // Check if initialization was successful
       if (initialize.message === 'Faltan parametros de inicialización') {
         throw new Error('SDK initialization failed: Missing parameters');
       }
 
+      // Create combined payment methods array including Sinpe Móvil if available
+      const allPaymentMethods = [...initialize.methods];
+
+      // Add Sinpe Móvil if it's available in the response
+      if (initialize.sinpemovil && Object.keys(initialize.sinpemovil).length > 0) {
+        allPaymentMethods.push({
+          id: 'sinpe:18:sinpemovil',
+          name: 'Sinpe Móvil',
+          type: 'sinpe'
+        });
+      }
+
+      console.log('All payment methods (including Sinpe):', allPaymentMethods);
+
       // Store results in refs
-      sdkStateRef.current.paymentMethods = initialize.methods;
+      sdkStateRef.current.paymentMethods = allPaymentMethods;
       sdkStateRef.current.savedCards = initialize.cards;
       sdkStateRef.current.isInitialized = true;
 
       // Load payment methods and cards
-      await loadPaymentMethodsOptions(initialize.methods);
+      await loadPaymentMethodsOptions(allPaymentMethods);
       await loadCardOptions(initialize.cards);
 
       // Set up event handlers
