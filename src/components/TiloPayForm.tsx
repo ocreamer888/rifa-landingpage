@@ -372,6 +372,22 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
     try {
       console.log('Starting SDK initialization...');
 
+      // Get token first and validate
+      let token;
+      try {
+        token = await getTiloPayToken();
+        if (!token) {
+          throw new Error('Failed to get Tilopay token');
+        }
+      } catch (tokenError) {
+        console.error('Token retrieval failed:', tokenError);
+        setUiState(prev => ({ 
+          ...prev, 
+          response: { error: 'Failed to authenticate with Tilopay. Please check your credentials.' } 
+        }));
+        return;
+      }
+
       // Create container and elements
       const container = createSDKContainer();
       document.body.appendChild(container);
@@ -384,25 +400,24 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       await new Promise(resolve => setTimeout(resolve, 200));
 
       // Get token and initialize
-      const token = await getTiloPayToken();
       const config: TilopayConfig = {
         token: token || '',
-        currency: 'CRC',
+        currency: 'USD',  // ✅ Use USD for production
         language: 'es',
         amount: order?.total_amount || 1,
         billToFirstName: 'Jose',
         billToLastName: 'Lopez',
         billToAddress: 'San Jose',
         billToAddress2: '',
-        billToCity: '',
-        billToState: '',
-        billToZipPostCode: '',
+        billToCity: 'San Jose',  // ✅ Add required city
+        billToState: 'San Jose',  // ✅ Add required state
+        billToZipPostCode: '10101',  // ✅ Add required zip code
         billToCountry: 'CR',
-        billToTelephone: '',
-        billToEmail: 'ocreamer.dev@gmail.com',
+        billToTelephone: '+50661038888',  // ✅ Add required telephone
+        billToEmail: order?.customer_email || 'ocreamer.dev@gmail.com',  // ✅ Use order email
         orderNumber: order?.order_number || 'sdk-' + Date.now(),
         capture: 1,
-        redirect: 'https://tilopay.test/response',
+        redirect: `${window.location.origin}/payment-success`,  // ✅ Use your domain
         subscription: 0,
         hashVersion: 'V2',
         returnData: 'W2N1c3RvbV9wYXJhbWV0ZXJfYSA9PiAidmFsb3IgZGUgYSIsY3VzdG9tX3BhcmFtZXRlcl9iID0+ICJ2YWxvciBkZSBiIl0='
@@ -429,7 +444,10 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
 
     } catch (error) {
       console.error('Error initializing Tilopay SDK:', error);
-      setUiState(prev => ({ ...prev, response: { error: 'Failed to initialize Tilopay SDK' } }));
+      setUiState(prev => ({ 
+        ...prev, 
+        response: { error: 'Failed to initialize Tilopay SDK' } 
+      }));
     }
   }, [createSDKContainer, createAllSDKElements, order, loadPaymentMethodsOptions, loadCardOptions, setupSDKEventHandlers]);
 
@@ -847,10 +865,20 @@ const getTiloPayToken = async () => {
     const response = await fetch('/api/tilopay-token', {
       method: 'POST'
     });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const tokenData = await response.json();
+    
+    if (!tokenData.access_token) {
+      throw new Error('No access token received');
+    }
+    
     return tokenData.access_token;
   } catch (error) {
     console.error('Error getting TiloPay token:', error);
-    return null;
+    throw error; // Re-throw to handle in calling function
   }
 };

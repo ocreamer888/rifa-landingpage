@@ -11,8 +11,6 @@ export default function HomePage() {
       <TripSection />
       <DentalSection />
       <RifaNumbers />
-    
-      
     </>
   )
 }
