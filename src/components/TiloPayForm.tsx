@@ -17,6 +17,7 @@ interface TilopayCard {
 interface TilopayInitResponse {
   methods: TilopayMethod[];
   cards: TilopayCard[];
+  message?: string; // Add this optional property
 }
 
 interface TilopayConfig {
