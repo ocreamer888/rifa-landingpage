@@ -556,21 +556,7 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
     // Update SDK element
     const hiddenSelect = sdkElementsRef.current.paymentMethod;
     if (hiddenSelect) {
-      hiddenSelect.value = method;
-      
-      // Force the SDK to recognize the change by updating its internal state
-      if (window.Tilopay && method) {
-        try {
-          // Update SDK options with the selected payment method
-          await window.Tilopay.updateOptions({
-            // Add any payment method specific options here
-          });
-        } catch (error) {
-          console.error('Error updating SDK options:', error);
-        }
-      }
-      
-      // Create a proper event object to trigger the SDK handler
+      // Instead of directly setting value, trigger a change event
       const event = new Event('change', { bubbles: true });
       Object.defineProperty(event, 'target', {
         value: hiddenSelect,
@@ -578,7 +564,8 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       });
       Object.defineProperty(event.target, 'value', {
         value: method,
-        enumerable: true
+        enumerable: true,
+        writable: true // Add this to make it writable
       });
       
       // Trigger the SDK event handler
