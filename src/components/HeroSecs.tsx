@@ -222,7 +222,7 @@ const CardContent: React.FC<{
       <a
         href={linkHref}
         onClick={buttonOnClick}
-        className={`hidden md:block ${hasCustom ? getButtonClasses({ variant: buttonVariant, size: buttonSize, rounded: buttonRounded, uppercase: !!buttonUppercase, extra: '' }) : desktopDefault} ${buttonClassName || ''}`}
+        className={` ${hasCustom ? getButtonClasses({ variant: buttonVariant, size: buttonSize, rounded: buttonRounded, uppercase: !!buttonUppercase, extra: '' }) : desktopDefault} ${buttonClassName || ''}`}
       >
         {buttonText}
       </a>

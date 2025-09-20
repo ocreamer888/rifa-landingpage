@@ -2,88 +2,14 @@ import Image from "next/image"
 
 export default function TripSection() {
     return (
-        <div className="relative h-screen flex flex-col justify-center items-center px-4">
-            {/* Orchid Decorations */}
-            <div className="absolute inset-0 overflow-hidden">
-                {/* Orchid 1 */}
-                <Image 
-                    src="/orchid1.png" 
-                    alt="Orchid 1" 
-                    width={74}
-                    height={72}
-                    className="absolute"
-                    style={{ top: '0px', left: '200px' }}
-                />
-                {/* Orchid 3 */}
-                <Image 
-                    src="/orchid 3.png" 
-                    alt="Orchid 3" 
-                    width={58}
-                    height={57}
-                    className="absolute"
-                    style={{ top: '4px', left: '71px' }}
-                />
-                {/* Orchid 4 */}
-                <Image 
-                    src="/orchid 4.png" 
-                    alt="Orchid 4" 
-                    width={48}
-                    height={45}
-                    className="absolute"
-                    style={{ top: '42px', left: '44px' }}
-                />
-                {/* Orchid 5 */}
-                <Image 
-                    src="/orchid 4.png" 
-                    alt="Orchid 5" 
-                    width={61}
-                    height={61}
-                    className="absolute"
-                    style={{ top: '65px', right: '27px' }}
-                />
-                {/* Orchid 6 */}
-                <Image 
-                    src="/orchid 4.png" 
-                    alt="Orchid 6" 
-                    width={56}
-                    height={55}
-                    className="absolute"
-                    style={{ top: '102px', right: '48px' }}
-                />
-                {/* Orchid 1 (duplicate) */}
-                <Image 
-                    src="/orchid1.png" 
-                    alt="Orchid 1 duplicate" 
-                    width={74}
-                    height={72}
-                    className="absolute"
-                    style={{ top: '66px', right: '13px' }}
-                />
-                {/* Coffee Bean 1 */}
-                <Image 
-                    src="/coffee bean 1.png" 
-                    alt="Coffee Bean 1" 
-                    width={29}
-                    height={34}
-                    className="absolute"
-                    style={{ top: '271px', right: '27px' }}
-                />
-                {/* Coffee Bean 2 */}
-                <Image 
-                    src="/coffee bean 1.png" 
-                    alt="Coffee Bean 2" 
-                    width={29}
-                    height={34}
-                    className="absolute"
-                    style={{ top: '545px', left: '47px' }}
-                />
-            </div>
-
+        <div className="relative h-auto py-12 flex flex-col justify-center items-center px-4">
             {/* Content */}
-            <div className="relative z-10 w-full h-4/5 md:h-3/5 mx-auto text-center backdrop-blur p-8 rounded-3xl bg-black/50">
+            <div className="relative z-10 w-full h-auto gap-4 mx-auto text-center backdrop-blur p-4 py-8 md:p-8 rounded-3xl bg-black/50">
+              <div className="flex flex-col w-full h-full items-center p-4 md:p-8 justify-center">
+              <div className="flex flex-col items-center justify-center">
                 {/* Section Title */}
                 <h2 
-                    className="text-white mb-8"
+                    className="text-white"
                     style={{
                         fontFamily: 'Poppins, sans-serif',
                         fontSize: '36px',
@@ -94,10 +20,11 @@ export default function TripSection() {
                 >
                     ¿Qué incluye el viaje?
                 </h2>
-                
+                </div>
+                <div className="flex md:flex-row flex-col h-full items-around justify-around w-full">
                 {/* Trip Details */}
                 <div 
-                    className="text-white text-left"
+                    className="text-white text-left flex flex-col items-start justify-center p-4"
                     style={{
                         fontFamily: 'Poppins, sans-serif',
                         fontSize: '20px',
@@ -106,11 +33,22 @@ export default function TripSection() {
                         letterSpacing: '-1px'
                     }}
                 >
-                    <p>Tiquetes de avión.</p>
-                    <p>Hotel todo incluído</p>
-                    <p>Comida</p>
-                    <p>Chofer privado</p>
+                    <p>• Tiquetes de avión</p>
+                    <p>• Hotel todo incluído</p>
+                    <p>• Comida</p>
+                    <p>• Chofer privado</p>
+                    <p>• Actividades</p>
+                    <p>• Seguro de viaje</p>
+                    <p>• Asistencia</p>
+                    <p>• Diseño de sonrisa</p>
+                    
                 </div>
+                <div className="flex flex-col items-center justify-center">
+                    <Image src="/Rifa-art-1.png" alt="Line" width={400} height={400} className="w-full h-full" />
+                </div>
+                </div>
+                
+            </div>
             </div>
         </div>
     )

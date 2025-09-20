@@ -28,7 +28,7 @@ export default function Home() {
       
     }
 
-    imageSrc="/Rifa-art-1.png"
+    imageSrc="/Rifa-art-2.png"
     imageSize={{
       mobile: "w-full h-full",
       tablet: ""
@@ -40,8 +40,8 @@ export default function Home() {
     backgroundVisibility={{hideOnMobile: false, hideOnTablet: false, hideOnDesktop: false}}
     backgroundColor=""
     buttonText={<span className="font-normal text-black">¡Participa ya!</span>}
-    cardButton="hidden"
-    buttonVisibility={{hideOnDesktop: false, hideOnTablet: false, hideOnMobile: false}}
+    cardButton="block! bg-orange-400 text-white hover:bg-black hover:text-orange-500 border border-white/90"
+    buttonVisibility={{hideOnDesktop: true, hideOnTablet: true, hideOnMobile: true}}
     buttonVariant="secondary"
     buttonSize="md"
     buttonRounded="full"

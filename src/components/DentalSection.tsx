@@ -4,16 +4,6 @@ import CardThree from "./CardThree"
 export default function DentalSection() {
     return (
         <div className="relative flex flex-col items-center justify-between w-full py-20 px-4">
-            {/* Coffee Bean Decoration */}
-            <div className="absolute top-8 right-8">
-                <Image 
-                    src="/coffee bean 1.png" 
-                    alt="Coffee Bean" 
-                    width={29}
-                    height={34}
-                />
-            </div>
-
             {/* Content */}
             <div className="flex flex-col md:flex-row h-3/5 w-full items-center justify-around text-center gap-4 backdrop-blur p-8 rounded-3xl bg-black/50">
                 {/* Section Title */}
@@ -47,13 +37,17 @@ export default function DentalSection() {
                 </div>
 
                 {/* Doctor Card */}
-                <div className="flex flex-col justify-center items-center gap-4 overflow-hidden h-4/5 w-4/5 lg:h-2/6 lg:w-2/6">
+                <div className="@container flex flex-col justify-center items-center gap-4 overflow-hidden w-full max-w-sm lg:max-w-md aspect-square lg:aspect-[4/3] min-h-[300px] lg:min-h-[400px]">
                     {/* Gradient Background */}
                     <CardThree
-                    title="Doc. Doctor"
-                    description="Especialista en diseño de sonrisa."
+                    title=
+                    {
+                        <h5 className="text-2xl md:text-3xl lg:text-4xl">Doc. Jose David Burbano</h5>
+                    }
+                    description="Odontólogo general y especialista en diseño de sonrisa."
                     imageSrc="/RifaDoc.png"
-                    imageAlt="Example image three"
+                    imageAlt="Dentista estético Jose David Burbano"
+                    className="h-full w-full pt-4"
 
                     />
 
