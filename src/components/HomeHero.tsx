@@ -51,12 +51,7 @@ export default function Home() {
     CardContentClassName="h-auto flex flex-col justify-center items-center text-white backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-lg bg-black/40"
     linkHref="#ticket-grid"
     imageAlt="Design Studio - Graphic Design, Web Development and Digital Marketing Services"
-  />   
-  <div className="hidden lg:block left-32! bottom-0! z-50 absolute gap-4">
-    <p className="text-white text-lg font-medium flex flex-row items-center gap-2">
-    <ArrowDown size={40} className="w-8 h-8 animate-bounce" /> scroll to continue
-    </p>
-  </div>
+  />
    </div>
   );
 }

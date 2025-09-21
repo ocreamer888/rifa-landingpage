@@ -1,15 +1,28 @@
-import Image from "next/image"
+"use client";
+import Image from "next/image";
+import Carousel from "./Carousel";
 
 export default function TripSection() {
     return (
-        <div className="relative h-auto py-12 flex flex-col justify-center items-center px-4">
+        <div className="relative h-auto pt-12 flex flex-col justify-center items-center px-4">
             {/* Content */}
-            <div className="relative z-10 w-full h-auto gap-4 mx-auto text-center backdrop-blur p-4 py-8 md:p-8 rounded-3xl bg-black/50">
-              <div className="flex flex-col w-full h-full items-center p-4 md:p-8 justify-center">
-              <div className="flex flex-col items-center justify-center">
-                {/* Section Title */}
-                <h2 
-                    className="text-white"
+            <div className="relative z-10 w-full h-full mx-auto text-center backdrop-blur rounded-3xl">
+              <div className="flex flex-col w-full h-full items-center justify-center">
+              
+                <div className="flex md:flex-row flex-col items-around gap-4 md:gap-0 justify-around w-full h-auto">
+                {/* Trip Details */}
+                <div 
+                    className="text-left flex flex-col text-gray-800 items-center justify-around p-4 bg-gradient-to-bl from-white/90 to-white/80 rounded-3xl md:rounded-l-3xl! md:rounded-r-none md:w-1/2 w-full h-auto"
+                    style={{
+                        fontFamily: 'Poppins, sans-serif',
+                        fontSize: '20px',
+                        fontWeight: 400,
+                        lineHeight: '30px',
+                        letterSpacing: '-1px'
+                    }}
+                >
+                     <h2 
+                    className="text-gray-800"
                     style={{
                         fontFamily: 'Poppins, sans-serif',
                         fontSize: '36px',
@@ -20,19 +33,7 @@ export default function TripSection() {
                 >
                     ¿Qué incluye el viaje?
                 </h2>
-                </div>
-                <div className="flex md:flex-row flex-col h-full items-around justify-around w-full">
-                {/* Trip Details */}
-                <div 
-                    className="text-white text-left flex flex-col items-start justify-center p-4"
-                    style={{
-                        fontFamily: 'Poppins, sans-serif',
-                        fontSize: '20px',
-                        fontWeight: 400,
-                        lineHeight: '30px',
-                        letterSpacing: '-1px'
-                    }}
-                >
+                <div className="flex flex-col items-start w-full max-w-4/5 justify-center">
                     <p>• Tiquetes de avión</p>
                     <p>• Hotel todo incluído</p>
                     <p>• Comida</p>
@@ -41,10 +42,10 @@ export default function TripSection() {
                     <p>• Seguro de viaje</p>
                     <p>• Asistencia</p>
                     <p>• Diseño de sonrisa</p>
-                    
+                    </div>
                 </div>
-                <div className="flex flex-col items-center justify-center">
-                    <Image src="/Rifa-art-1.png" alt="Line" width={400} height={400} className="w-full h-full" />
+                <div className="flex flex-col items-center justify-center md:w-1/2 w-full rounded-r-3xl! h-auto">
+                    <Carousel />
                 </div>
                 </div>
                 
