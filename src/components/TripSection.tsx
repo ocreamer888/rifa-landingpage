@@ -11,7 +11,7 @@ export default function TripSection() {
                 <div className="flex md:flex-row flex-col items-around gap-4 md:gap-0 justify-around w-full h-auto">
                 {/* Trip Details */}
                 <div 
-                    className="text-left flex flex-col text-gray-800 items-center justify-around p-4 bg-gradient-to-bl from-white/90 to-white rounded-3xl md:rounded-l-3xl! md:rounded-r-none md:w-1/2 w-full h-auto"
+                    className="text-left flex flex-col text-gray-800 items-center justify-around p-4 bg-white rounded-3xl md:rounded-l-3xl! md:rounded-r-none md:w-1/2 w-full h-auto"
                    >
                 <div className="flex flex-col items-start font-lg w-full gap-2 max-w-4/5 justify-center">
                 <h2 

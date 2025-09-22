@@ -27,7 +27,7 @@ export default function Home() {
       
     }
 
-    imageSrc="/Rifa-art-2.png"
+    imageSrc="/Rifa-art-2.webp"
     imageSize={{
       mobile: "w-full h-full",
       tablet: ""
@@ -35,7 +35,7 @@ export default function Home() {
     }}
     CardImageClassName="w-2/5 h-2/5"
     imageVisibility={{showOnMobile: true}}
-    backgroundImage="/Rifa-art-5.png"
+    backgroundImage="/Rifa-art-5.webp"
     backgroundVisibility={{hideOnMobile: false, hideOnTablet: false, hideOnDesktop: false}}
     backgroundColor=""
     buttonText={<span className="font-normal text-black">¡Participa ya!</span>}

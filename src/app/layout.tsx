@@ -38,7 +38,7 @@ export default function RootLayout({
       <body 
         className={`${poppins.variable} ${playfairDisplay.variable} fixed-bg`}
         style={{
-          backgroundImage: 'url("/Rifa-art-6.png")',
+          backgroundImage: 'url("/Rifa-art-6.webp")',
           backgroundAttachment: 'fixed',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
