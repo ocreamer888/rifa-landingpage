@@ -1,11 +1,12 @@
-import Image from "next/image"
+'use client';
 import CardThree from "./CardThree"
+import VideoContainer from "./VideoContainer"
 
 export default function DentalSection() {
     return (
-        <div className="relative flex flex-col items-center justify-between w-full py-20 px-4">
+        <div className="relative flex flex-col items-center w-full py-20 px-4">
             {/* Content */}
-            <div className="flex flex-col md:flex-row h-3/5 w-full items-center justify-around text-center gap-4 backdrop-blur p-8 rounded-3xl bg-black/50">
+            <div className="flex flex-col md:flex-row w-full items-center justify-around text-center gap-4 backdrop-blur p-8 rounded-3xl bg-black/80 mb-8">
                 {/* Section Title */}
                 <div className="flex flex-col w-full lg:w-2/5 justify-center items-center md:items-start md:justify-start gap-4">
                 <h2 
@@ -26,7 +27,7 @@ export default function DentalSection() {
                     className="text-white text-center md:text-left"
                     style={{
                         fontFamily: 'Poppins, sans-serif',
-                        fontSize: '16px',
+                        fontSize: '18px',
                         fontWeight: 400,
                         lineHeight: '24px',
                         letterSpacing: '-0.8px'
@@ -34,12 +35,23 @@ export default function DentalSection() {
                 >
                     El ganador tendrá un diseño de sonrisa para él o su acompañante realizado por el Doctor.
                 </p>
+                <VideoContainer
+                    videoSrc="/video/dental.mp4"
+                    posterSrc="/Rifa-art-4.png"
+                    videoAlt="Rifa promotional video"
+                    className="w-full rounded-3xl"
+                    aspectRatio="16/9"
+                    autoPlay={true}
+                    loop={true}
+                    muted={true}
+                    backgroundColor="bg-black"
+                
+                />
                 </div>
 
                 {/* Doctor Card */}
                 <div className="@container flex flex-col justify-center items-center gap-4 overflow-hidden w-full max-w-sm lg:max-w-md aspect-square lg:aspect-[4/3] min-h-[300px] lg:min-h-[400px]">
-                    {/* Gradient Background */}
-                    <CardThree
+                <CardThree
                     title=
                     {
                         <h5 className="text-2xl md:text-3xl lg:text-4xl">Doc. Jose David Burbano</h5>
@@ -48,13 +60,14 @@ export default function DentalSection() {
                     imageSrc="/RifaDoc.png"
                     imageAlt="Dentista estético Jose David Burbano"
                     className="h-full w-full pt-4"
-
-                    />
-
+                    /> 
+                  
+                  
                 </div>
-
-              
+            
             </div>
+            
+
         </div>
     )
 }

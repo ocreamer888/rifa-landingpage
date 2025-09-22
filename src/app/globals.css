@@ -25,3 +25,241 @@ body {
   color: var(--foreground);
   font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Custom video slider styles */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.slider::-webkit-slider-track {
+  height: 4px;
+  cursor: pointer;
+  background: transparent;
+}
+
+.slider::-moz-range-track {
+  height: 4px;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Professional Stats Section Animations */
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(139, 92, 246, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8));
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* View Transition API Styles */
+@supports (view-transition-name: none) {
+  ::view-transition-old(stat-bar) {
+    animation: slide-out 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  ::view-transition-new(stat-bar) {
+    animation: slide-in 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ::view-transition-old(section-title) {
+    animation: fade-out 0.3s ease-out;
+  }
+  
+  ::view-transition-new(section-title) {
+    animation: fade-in 0.3s ease-in 0.2s both;
+  }
+
+  ::view-transition-old(info-panel) {
+    animation: slide-down 0.4s ease-out;
+  }
+  
+  ::view-transition-new(info-panel) {
+    animation: slide-up 0.4s ease-out 0.3s both;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-20px) scale(0.95);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(20px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Enhanced container styles */
+.stats-container {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 92, 246, 0.3) transparent;
+}
+
+.stats-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.stats-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.stats-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.6), rgba(124, 58, 237, 0.6));
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.stats-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.8), rgba(124, 58, 237, 0.8));
+}
+
+/* Smooth focus styles for accessibility */
+[data-index]:focus {
+  outline: 2px solid rgba(139, 92, 246, 0.8);
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+/* Performance optimizations */
+.stats-bar {
+  contain: layout style paint;
+  will-change: transform, width, height, box-shadow;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Responsive improvements */
+@media (max-width: 1024px) {
+  .stats-container {
+    gap: 8px;
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-bar {
+    transition-duration: 0.5s;
+  }
+  
+  @keyframes moveBackground {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 20px 20px;
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .stats-bar {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .stats-bar,
+  .stats-plus-icon,
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

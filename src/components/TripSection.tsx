@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Carousel from "./Carousel";
 
 export default function TripSection() {
@@ -12,17 +11,11 @@ export default function TripSection() {
                 <div className="flex md:flex-row flex-col items-around gap-4 md:gap-0 justify-around w-full h-auto">
                 {/* Trip Details */}
                 <div 
-                    className="text-left flex flex-col text-gray-800 items-center justify-around p-4 bg-gradient-to-bl from-white/90 to-white/80 rounded-3xl md:rounded-l-3xl! md:rounded-r-none md:w-1/2 w-full h-auto"
-                    style={{
-                        fontFamily: 'Poppins, sans-serif',
-                        fontSize: '20px',
-                        fontWeight: 400,
-                        lineHeight: '30px',
-                        letterSpacing: '-1px'
-                    }}
-                >
-                     <h2 
-                    className="text-gray-800"
+                    className="text-left flex flex-col text-gray-800 items-center justify-around p-4 bg-gradient-to-bl from-white/90 to-white rounded-3xl md:rounded-l-3xl! md:rounded-r-none md:w-1/2 w-full h-auto"
+                   >
+                <div className="flex flex-col items-start font-lg w-full gap-2 max-w-4/5 justify-center">
+                <h2 
+                    className="text-gray-800 text-center md:text-left"
                     style={{
                         fontFamily: 'Poppins, sans-serif',
                         fontSize: '36px',
@@ -33,7 +26,6 @@ export default function TripSection() {
                 >
                     ¿Qué incluye el viaje?
                 </h2>
-                <div className="flex flex-col items-start w-full max-w-4/5 justify-center">
                     <p>• Tiquetes de avión</p>
                     <p>• Hotel todo incluído</p>
                     <p>• Comida</p>
