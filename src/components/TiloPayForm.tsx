@@ -371,25 +371,9 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       console.log('Starting SDK initialization...');
 
       // Get token first
-      let token;
+      let token: string;
       try {
-        console.log('Retrieving Tilopay token...');
-        const response = await fetch('/api/tilopay-token', {
-          method: 'POST'
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const tokenData = await response.json();
-        console.log('Token response:', tokenData);
-        
-        if (!tokenData.access_token) {
-          throw new Error('No access token received');
-        }
-        
-        token = tokenData.access_token;
+        token = await getTiloPayToken();
         console.log('Token retrieved successfully, length:', token.length);
       } catch (tokenError) {
         console.error('Token retrieval failed:', tokenError);

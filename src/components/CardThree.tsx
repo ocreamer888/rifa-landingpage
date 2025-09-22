@@ -59,7 +59,7 @@ const CardImage: React.FC<{
     tablet?: string;
     desktop?: string;
   } | undefined;
-}> = ({ src, alt, visibility, imageSize }) => {
+}> = ({ src, alt, visibility }) => {
   const visibilityClasses = visibility ? getResponsiveVisibilityClasses(visibility) : '';
   
   return (

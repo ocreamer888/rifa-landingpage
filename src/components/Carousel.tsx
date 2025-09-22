@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const FadeCarousel = () => {
   // Sample images - replace with your own
@@ -15,16 +15,7 @@ const FadeCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Auto-advance slides
-  useEffect(() => {
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 4000); // Change slide every 4 seconds
-
-    return () => clearInterval(interval);
-  }, [currentIndex]);
-
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     if (!isTransitioning) {
       setIsTransitioning(true);
       setTimeout(() => {
@@ -32,29 +23,16 @@ const FadeCarousel = () => {
         setIsTransitioning(false);
       }, 300); // Half of transition duration
     }
-  };
+  }, [isTransitioning, images.length]);
 
-  const prevSlide = () => {
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentIndex((prevIndex) => 
-          prevIndex === 0 ? images.length - 1 : prevIndex - 1
-        );
-        setIsTransitioning(false);
-      }, 300);
-    }
-  };
+  // Auto-advance slides
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 4000); // Change slide every 4 seconds
 
-  const goToSlide = (index: number) => {
-    if (!isTransitioning && index !== currentIndex) {
-      setIsTransitioning(true);
-      setTimeout(() => {
-        setCurrentIndex(index);
-        setIsTransitioning(false);
-      }, 300);
-    }
-  };
+    return () => clearInterval(interval);
+  }, [nextSlide]);
 
   return (
     <div className="relative w-full bg-gray-900 overflow-hidden rounded-3xl md:rounded-r-3xl md:rounded-l-none shadow-2xl">

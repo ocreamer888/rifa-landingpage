@@ -16,7 +16,6 @@ interface VideoContainerProps {
   autoPlay?: boolean;
   loop?: boolean;
   muted?: boolean;
-  controls?: boolean;
   
   // Responsive visibility
   visibility?: {
@@ -111,7 +110,6 @@ const VideoContainer: React.FC<VideoContainerProps> = ({
   autoPlay = false,
   loop = false,
   muted = true,
-  controls = true,
   visibility,
   aspectRatio = '16/9',
   customAspectRatio,
@@ -132,7 +130,6 @@ const VideoContainer: React.FC<VideoContainerProps> = ({
           autoPlay={autoPlay}
           loop={loop}
           muted={muted}
-          controls={false}
           playsInline
           disablePictureInPicture
           onContextMenu={(e) => e.preventDefault()}

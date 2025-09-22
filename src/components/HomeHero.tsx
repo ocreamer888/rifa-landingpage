@@ -1,6 +1,5 @@
 "use client";
 import HeroSecs from "@/components/HeroSecs";
-import { ArrowDown } from "lucide-react";
 
 export default function Home() {
   return (
