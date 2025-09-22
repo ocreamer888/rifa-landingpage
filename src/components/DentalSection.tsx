@@ -37,7 +37,7 @@ export default function DentalSection() {
                 </p>
                 <VideoContainer
                     videoSrc="/video/dental.mp4"
-                    posterSrc="/Rifa-art-4.webp"
+                    posterSrc="/diseño-sonrisa.webp"
                     videoAlt="Rifa promotional video"
                     className="w-full rounded-3xl"
                     aspectRatio="16/9"
