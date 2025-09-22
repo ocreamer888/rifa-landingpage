@@ -57,7 +57,7 @@ export default function DentalSection() {
                         <h5 className="text-2xl md:text-3xl lg:text-4xl">Doc. Jose David Burbano</h5>
                     }
                     description="Odontólogo general y especialista en diseño de sonrisa."
-                    imageSrc="/RifaDoc.png"
+                    imageSrc="/RifaDoc.webp"
                     imageAlt="Dentista estético Jose David Burbano"
                     className="h-full w-full pt-4"
                     /> 
