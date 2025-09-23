@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import Image from "next/image";
 
 interface HeroSecsProps {
@@ -135,7 +135,8 @@ const getButtonClasses = ({
     .filter(Boolean).join(' ');
 };
 
-const CardImage: React.FC<{ 
+// Memoized CardImage component
+const CardImage = memo<{ 
   src: string; 
   alt: string;
   visibility?: {
@@ -147,17 +148,20 @@ const CardImage: React.FC<{
     showOnDesktop?: boolean;
   };
   CardImageClassName?: string;
-  // Add dynamic sizing props
   imageSize?: {
-    mobile?: string;    // e.g., "w-4/5 h-4/5"
-    tablet?: string;    // e.g., "w-3/5 h-3/5" (will add md: prefix)
-    desktop?: string;   // e.g., "w-2/5 h-2/5" (will add lg: prefix)
+    mobile?: string;
+    tablet?: string;
+    desktop?: string;
   };
-}> = ({ src, alt, visibility, imageSize, CardImageClassName }) => {
-  const visibilityClasses = visibility ? getResponsiveVisibilityClasses(visibility) : '';
+  priority?: boolean;
+}>(({ src, alt, visibility, imageSize, CardImageClassName, priority = false }) => {
+  const visibilityClasses = useMemo(() => 
+    visibility ? getResponsiveVisibilityClasses(visibility) : '', 
+    [visibility]
+  );
   
   // Build dynamic sizes with proper responsive prefixes
-  const buildDynamicSizes = () => {
+  const dynamicSizes = useMemo(() => {
     if (!imageSize) {
       return "w-4/5 h-4/5 md:w-3/5 md:h-3/5 lg:w-2/5 lg:h-2/5";
     }
@@ -167,30 +171,30 @@ const CardImage: React.FC<{
     const desktop = imageSize.desktop ? imageSize.desktop.replace(/\b(w-|h-)/g, 'lg:$1') : "";
     
     return [mobile, tablet, desktop].filter(Boolean).join(' ');
-  };
-  
-  const dynamicSizes = buildDynamicSizes();
+  }, [imageSize]);
   
   return (
     <div className={`relative flex flex-col w-full z-10 h-full items-end p-2 lg:p-8 justify-center ${visibilityClasses}`}>
-           <div className='flex flex-col items-center justify-end w-full h-full overflow-hidden'>
+      <div className='flex flex-col items-center justify-end w-full h-full overflow-hidden'>
         <Image
           src={src}
           alt={alt}
-          height={400}
-          width={400}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-          quality={100}
-          priority
-          fetchPriority='high'
-          className={`object-contain ${dynamicSizes} ${CardImageClassName}`}
+          height={600}
+          width={600}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          quality={95}
+          loading="lazy"
+          className={`object-contain ${dynamicSizes} ${CardImageClassName || ''}`}
         />
       </div>
     </div>
   );
-};
+});
 
-const CardContent: React.FC<{ 
+CardImage.displayName = 'CardImage';
+
+// Memoized CardContent component
+const CardContent = memo<{ 
   title: React.ReactNode; 
   description?: string | React.ReactNode | undefined; 
   buttonText: React.ReactNode; 
@@ -210,10 +214,31 @@ const CardContent: React.FC<{
   buttonUppercase?: boolean | undefined;
   buttonClassName?: string | undefined;
   buttonOnClick?: React.MouseEventHandler<HTMLAnchorElement> | undefined;
-}> = ({ title, description, buttonText, linkHref, visibility, CardContentClassName, buttonVariant, buttonSize, buttonRounded, buttonUppercase, buttonClassName, buttonOnClick }) => {
-  const visibilityClasses = visibility ? getResponsiveVisibilityClasses(visibility) : '';
-  const hasCustom = Boolean(buttonVariant || buttonSize || buttonRounded || typeof buttonUppercase !== 'undefined' || buttonClassName);
+}>(({ title, description, buttonText, linkHref, visibility, CardContentClassName, buttonVariant, buttonSize, buttonRounded, buttonUppercase, buttonClassName, buttonOnClick }) => {
+  const visibilityClasses = useMemo(() => 
+    visibility ? getResponsiveVisibilityClasses(visibility) : '', 
+    [visibility]
+  );
+  
+  const hasCustom = useMemo(() => 
+    Boolean(buttonVariant || buttonSize || buttonRounded || typeof buttonUppercase !== 'undefined' || buttonClassName),
+    [buttonVariant, buttonSize, buttonRounded, buttonUppercase, buttonClassName]
+  );
+  
   const desktopDefault = "relative bg-purple-100 cursor-pointer hover:bg-purple-200 text-purple-900 font-bold px-8 py-4 rounded-full transition-colors duration-200";
+  
+  const buttonClasses = useMemo(() => {
+    if (hasCustom) {
+      return getButtonClasses({ 
+        variant: buttonVariant, 
+        size: buttonSize, 
+        rounded: buttonRounded, 
+        uppercase: !!buttonUppercase, 
+        extra: '' 
+      });
+    }
+    return desktopDefault;
+  }, [hasCustom, buttonVariant, buttonSize, buttonRounded, buttonUppercase]);
   
   return (
     <div className={`z-20 rounded-3xl flex flex-col justify-center items-center lg:items-start gap-4 ${visibilityClasses} ${CardContentClassName}`}>
@@ -222,15 +247,18 @@ const CardContent: React.FC<{
       <a
         href={linkHref}
         onClick={buttonOnClick}
-        className={` ${hasCustom ? getButtonClasses({ variant: buttonVariant, size: buttonSize, rounded: buttonRounded, uppercase: !!buttonUppercase, extra: '' }) : desktopDefault} ${buttonClassName || ''}`}
+        className={`${buttonClasses} ${buttonClassName || ''}`}
       >
         {buttonText}
       </a>
     </div>
   );
-};
+});
 
-const CardButton: React.FC<{ 
+CardContent.displayName = 'CardContent';
+
+// Memoized CardButton component
+const CardButton = memo<{ 
   buttonText: React.ReactNode; 
   linkHref: string;
   visibility?: {
@@ -247,101 +275,117 @@ const CardButton: React.FC<{
   buttonUppercase?: boolean | undefined;
   buttonClassName?: string | undefined;
   buttonOnClick?: React.MouseEventHandler<HTMLAnchorElement> | undefined;
-}> = ({ buttonText, linkHref, visibility, buttonVariant, buttonSize, buttonRounded, buttonUppercase, buttonClassName, buttonOnClick }) => {
-  const visibilityClasses = visibility ? getResponsiveVisibilityClasses(visibility) : '';
-  const hasCustom = Boolean(buttonVariant || buttonSize || buttonRounded || typeof buttonUppercase !== 'undefined' || buttonClassName);
+}>(({ buttonText, linkHref, visibility, buttonVariant, buttonSize, buttonRounded, buttonUppercase, buttonClassName, buttonOnClick }) => {
+  const visibilityClasses = useMemo(() => 
+    visibility ? getResponsiveVisibilityClasses(visibility) : '', 
+    [visibility]
+  );
+  
+  const hasCustom = useMemo(() => 
+    Boolean(buttonVariant || buttonSize || buttonRounded || typeof buttonUppercase !== 'undefined' || buttonClassName),
+    [buttonVariant, buttonSize, buttonRounded, buttonUppercase, buttonClassName]
+  );
+  
   const mobileDefault = "bg-yellow-500 hover:bg-purple-200 text-purple-900 uppercase font-bold px-6 py-4 rounded-full";
+  
+  const buttonClasses = useMemo(() => {
+    if (hasCustom) {
+      return getButtonClasses({ 
+        variant: buttonVariant, 
+        size: buttonSize, 
+        rounded: buttonRounded, 
+        uppercase: !!buttonUppercase, 
+        extra: '' 
+      });
+    }
+    return mobileDefault;
+  }, [hasCustom, buttonVariant, buttonSize, buttonRounded, buttonUppercase]);
   
   return (
     <div className={`absolute md:relative z-50 w-full h-auto flex flex-col text-balance justify-end items-center md:items-start px-8 pb-8 ${visibilityClasses}`}>
       <a
         href={linkHref}
         onClick={buttonOnClick}
-        className={`md:hidden ${hasCustom ? getButtonClasses({ variant: buttonVariant, size: buttonSize, rounded: buttonRounded, uppercase: !!buttonUppercase, extra: '' }) : mobileDefault} ${buttonClassName || ''}`}
+        className={`md:hidden ${buttonClasses} ${buttonClassName || ''}`}
       >
         {buttonText}
       </a>
     </div>
   );
-};
+});
 
-class HeroSecs extends React.Component<HeroSecsProps> {
-  static defaultProps = {
-    title: "Default Title",
-    description: "Default Description",
-    imageSrc: "/default-image.webp",
-    imageAlt: "Default Image",
-    linkHref: "#",
-    backgroundColor: "#f8f8f8",
-    CardButton: "true",
-  };
+CardButton.displayName = 'CardButton';
 
- override render() {
-    const { 
-      title, 
-      description, 
-      imageSrc, 
-      imageAlt, 
-      linkHref, 
-      backgroundImage, 
-      backgroundColor, 
-      backDropBlur, 
-      buttonText, 
-      cardButton, 
-      className,
-      CardContentClassName,
-      CardImageClassName,
-      // Individual visibility controls
-      imageVisibility,
-      contentVisibility,
-      buttonVisibility,
-      backgroundVisibility,
-      // Legacy props for backward compatibility
-      hideOnMobile,
-      hideOnTablet,
-      hideOnDesktop,
-      showOnMobile,
-      showOnTablet,
-      showOnDesktop
-    } = this.props;
+// Main HeroSecs component with memoization
+const HeroSecs = memo<HeroSecsProps>(({
+  title = "Default Title",
+  description = "Default Description",
+  imageSrc = "/default-image.webp",
+  imageAlt = "Default Image",
+  linkHref = "#",
+  backgroundColor = "#f8f8f8",
+  cardButton = "true",
+  backgroundImage,
+  backDropBlur,
+  buttonText,
+  className,
+  CardContentClassName,
+  CardImageClassName,
+  imageSize,
+  imageVisibility,
+  contentVisibility,
+  buttonVisibility,
+  backgroundVisibility,
+  hideOnMobile,
+  hideOnTablet,
+  hideOnDesktop,
+  showOnMobile,
+  showOnTablet,
+  showOnDesktop,
+  buttonVariant,
+  buttonSize,
+  buttonRounded,
+  buttonUppercase,
+  buttonClassName,
+  buttonOnClick,
+}) => {
+  // Memoize legacy visibility props
+  const legacyVisibility = useMemo(() => ({
+    ...(hideOnMobile !== undefined && { hideOnMobile }),
+    ...(hideOnTablet !== undefined && { hideOnTablet }),
+    ...(hideOnDesktop !== undefined && { hideOnDesktop }),
+    ...(showOnMobile !== undefined && { showOnMobile }),
+    ...(showOnTablet !== undefined && { showOnTablet }),
+    ...(showOnDesktop !== undefined && { showOnDesktop }),
+  }), [hideOnMobile, hideOnTablet, hideOnDesktop, showOnMobile, showOnTablet, showOnDesktop]);
 
-    // Legacy visibility props (apply to all if no individual controls are set)
-       const legacyVisibility: {
-        hideOnMobile?: boolean;
-        hideOnTablet?: boolean;
-        hideOnDesktop?: boolean;
-        showOnMobile?: boolean;
-        showOnTablet?: boolean;
-        showOnDesktop?: boolean;
-      } = {
-        ...(hideOnMobile !== undefined && { hideOnMobile }),
-        ...(hideOnTablet !== undefined && { hideOnTablet }),
-        ...(hideOnDesktop !== undefined && { hideOnDesktop }),
-        ...(showOnMobile !== undefined && { showOnMobile }),
-        ...(showOnTablet !== undefined && { showOnTablet }),
-        ...(showOnDesktop !== undefined && { showOnDesktop }),
-      };
+  // Memoize final visibility props
+  const finalImageVisibility = useMemo(() => imageVisibility || legacyVisibility, [imageVisibility, legacyVisibility]);
+  const finalContentVisibility = useMemo(() => contentVisibility || legacyVisibility, [contentVisibility, legacyVisibility]);
+  const finalButtonVisibility = useMemo(() => buttonVisibility || legacyVisibility, [buttonVisibility, legacyVisibility]);
+  const finalBackgroundVisibility = useMemo(() => backgroundVisibility || legacyVisibility, [backgroundVisibility, legacyVisibility]);
 
-    // Use individual visibility props if provided, otherwise fall back to legacy props
-    const finalImageVisibility = imageVisibility || legacyVisibility;
-    const finalContentVisibility = contentVisibility || legacyVisibility;
-    const finalButtonVisibility = buttonVisibility || legacyVisibility;
-    const finalBackgroundVisibility = backgroundVisibility || legacyVisibility;
+  // Memoize background image classes
+  const backgroundImageClasses = useMemo(() => 
+    backgroundImage ? getResponsiveVisibilityClasses(finalBackgroundVisibility) : '',
+    [backgroundImage, finalBackgroundVisibility]
+  );
 
-    return (
-      <div className='relative flex flex-col h-screen w-full rounded-b-3xl z-30'>
-        {backgroundImage && (
-          <Image 
-            src={backgroundImage}
-            alt="Background image"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
-            quality={100}
-            loading="lazy"
-            className={`relative object-top object-cover rounded-b-3xl backdrop-blur ${getResponsiveVisibilityClasses(finalBackgroundVisibility)}`}
-          />
-        )}
-        <div className={`relative flex flex-col sm:landscape:flex-row lg:flex-row overflow-hidden justify-center items-center ${className} ${backDropBlur} ${backgroundColor}`} role="region" aria-labelledby="card-title">      
+  return (
+    <div className='relative flex flex-col h-screen w-full rounded-b-3xl z-30'>
+      {backgroundImage && (
+        <Image 
+          src={backgroundImage}
+          alt="Background image"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
+          quality={95}
+          priority
+          fetchPriority="high"
+          className={`relative object-top object-cover rounded-b-3xl backdrop-blur ${backgroundImageClasses}`}
+        />
+      )}
+      <div className={`relative flex flex-col sm:landscape:flex-row lg:flex-row overflow-hidden justify-center items-center ${className} ${backDropBlur} ${backgroundColor}`} role="region" aria-labelledby="card-title">      
         <div className='relative sm:landscape:relative md:relative order-1 sm:landscape:order-1 md:order-1 flex flex-col flex-1 h-auto sm:landscape:h-auto justify-center items-center'>
           {title && linkHref && buttonText && CardContentClassName && (
             <CardContent 
@@ -351,45 +395,46 @@ class HeroSecs extends React.Component<HeroSecsProps> {
               linkHref={linkHref}
               visibility={finalContentVisibility}
               CardContentClassName={CardContentClassName}
-              buttonVariant={this.props.buttonVariant}
-              buttonSize={this.props.buttonSize}
-              buttonRounded={this.props.buttonRounded}
-              buttonUppercase={this.props.buttonUppercase}
-              buttonClassName={this.props.buttonClassName}
-              buttonOnClick={this.props.buttonOnClick}
+              buttonVariant={buttonVariant}
+              buttonSize={buttonSize}
+              buttonRounded={buttonRounded}
+              buttonUppercase={buttonUppercase}
+              buttonClassName={buttonClassName}
+              buttonOnClick={buttonOnClick}
             />
           )}
         </div>
         <div className='relative flex flex-col w-full lg:block order-2 sm:landscape:order-2 md:order-2 sm:landscape:flex-1 flex-1 sm:landscape:h-auto justify-center items-center'>
-          {imageSrc && imageAlt && CardImageClassName && (
+        {imageSrc && imageAlt && (
             <CardImage 
               src={imageSrc} 
               alt={imageAlt}
               visibility={finalImageVisibility}
-              {...(this.props.imageSize !== undefined ? { imageSize: this.props.imageSize } : {})}
-              {...(this.props.CardImageClassName !== undefined ? { CardImageClassName: this.props.CardImageClassName } : {})}
-            />
-          )}
-        </div>
-        </div>
-        <div className="flex flex-col md:flex-row w-full justify-end items-center">
-          {cardButton && linkHref && buttonText && (
-            <CardButton 
-              buttonText={buttonText} 
-              linkHref={linkHref}
-              visibility={finalButtonVisibility}
-              buttonVariant={this.props.buttonVariant}
-              buttonSize={this.props.buttonSize}
-              buttonRounded={this.props.buttonRounded}
-              buttonUppercase={this.props.buttonUppercase}
-              buttonClassName={this.props.buttonClassName}
-              buttonOnClick={this.props.buttonOnClick}
+              {...(imageSize ? { imageSize } : {})}
+              {...(CardImageClassName ? { CardImageClassName } : {})}
             />
           )}
         </div>
       </div>
-    );
-  }
-}
+      <div className="flex flex-col md:flex-row w-full justify-end items-center">
+        {cardButton && linkHref && buttonText && (
+          <CardButton 
+            buttonText={buttonText} 
+            linkHref={linkHref}
+            visibility={finalButtonVisibility}
+            buttonVariant={buttonVariant}
+            buttonSize={buttonSize}
+            buttonRounded={buttonRounded}
+            buttonUppercase={buttonUppercase}
+            buttonClassName={buttonClassName}
+            buttonOnClick={buttonOnClick}
+          />
+        )}
+      </div>
+    </div>
+  );
+});
+
+HeroSecs.displayName = 'HeroSecs';
 
 export default HeroSecs;

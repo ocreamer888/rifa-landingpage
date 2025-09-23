@@ -1,15 +1,43 @@
-import RifaNumbers from "@/components/RifaNumbers";
-import TripSection from "@/components/TripSection";
-import DentalSection from "@/components/DentalSection";
-import HomeHero from "@/components/HomeHero";
+
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import Loading from '@/components/Loading';
+import Landing from '@/components/Landing';
+
+
+const TripSection = dynamic(() => import('@/components/TripSection'), {
+  loading: () => <Loading text="Loading trip details..." />,
+  ssr: true
+});
+
+const DentalSection = dynamic(() => import('@/components/DentalSection'), {
+  loading: () => <Loading text="Loading dental section..." />,
+  ssr: true
+});
+
+const HomeHero = dynamic(() => import('@/components/HomeHero'), {
+  loading: () => <Loading text="Loading..." size="lg" />,
+  ssr: true
+});
 
 export default function HomePage() {
-  return(
+  return (
     <>
-      <HomeHero />
-      <TripSection />
-      <DentalSection />
-      <RifaNumbers />
+      <Suspense fallback={<Loading text="Loading hero section..." size="lg" />}>
+        <HomeHero />
+      </Suspense>
+      
+      <Suspense fallback={<Loading text="Loading trip details..." />}>
+        <TripSection />
+      </Suspense>
+      
+      <Suspense fallback={<Loading text="Loading dental section..." />}>
+        <DentalSection />
+      </Suspense>
+      
+      <Suspense fallback={<Loading text="Loading tickets..." size="lg" />}>
+        <Landing />
+      </Suspense>
     </>
-  )
+  );
 }

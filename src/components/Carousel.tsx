@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, memo } from 'react';
+import Image from 'next/image';
 
-const FadeCarousel = () => {
+const FadeCarousel = memo(() => {
   // Sample images - replace with your own
   const images = [
     '/rifa-trip-1.webp',
@@ -47,17 +48,23 @@ const FadeCarousel = () => {
                 : 'opacity-0'
             }`}
           >
-            <img
+            <Image
               src={image}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-full object-cover"
-              loading="lazy"
+              alt={`Trip slide ${index + 1}`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              quality={85}
+              loading={index === 0 ? "eager" : "lazy"}
+              priority={index === 0}
+              className="object-cover"
             />
           </div>
         ))}
       </div>
     </div>
   );
-};
+});
+
+FadeCarousel.displayName = 'FadeCarousel';
 
 export default FadeCarousel;

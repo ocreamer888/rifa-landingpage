@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 
 interface VideoContainerProps {
   // Video source
@@ -100,7 +100,7 @@ const getVideoMimeType = (src: string): string => {
   }
 };
 
-const VideoContainer: React.FC<VideoContainerProps> = ({
+const VideoContainer = memo<VideoContainerProps>(({
   videoSrc,
   posterSrc,
   videoAlt = "Video content",
@@ -117,9 +117,20 @@ const VideoContainer: React.FC<VideoContainerProps> = ({
   overlay,
   overlayClassName = "",
 }) => {
-  const visibilityClasses = visibility ? getResponsiveVisibilityClasses(visibility) : '';
-  const aspectRatioClass = getAspectRatioClass(aspectRatio, customAspectRatio);
-  const mimeType = getVideoMimeType(videoSrc);
+  const visibilityClasses = useMemo(() => 
+    visibility ? getResponsiveVisibilityClasses(visibility) : '', 
+    [visibility]
+  );
+  
+  const aspectRatioClass = useMemo(() => 
+    getAspectRatioClass(aspectRatio, customAspectRatio), 
+    [aspectRatio, customAspectRatio]
+  );
+  
+  const mimeType = useMemo(() => 
+    getVideoMimeType(videoSrc), 
+    [videoSrc]
+  );
 
   return (
     <div className={`relative w-full ${aspectRatioClass} ${backgroundColor} ${visibilityClasses} ${className}`}>
@@ -159,6 +170,8 @@ const VideoContainer: React.FC<VideoContainerProps> = ({
       </div>
     </div>
   );
-};
+});
+
+VideoContainer.displayName = 'VideoContainer';
 
 export default VideoContainer;

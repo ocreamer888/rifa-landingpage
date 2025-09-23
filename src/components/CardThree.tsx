@@ -1,6 +1,6 @@
 'use client';
 import Image from "next/image";
-import { useId } from "react";
+import { useId, memo } from "react";
 
 interface CardThreeProps {
   title: string | React.ReactNode;
@@ -14,9 +14,9 @@ interface CardThreeProps {
   cardButton?: string;
   className?: string;
   imageSize?: {
-    mobile?: string;    // e.g., "w-4/5 h-4/5"
-    tablet?: string;    // e.g., "w-3/5 h-3/5" (will add md: prefix)
-    desktop?: string;   // e.g., "w-2/5 h-2/5" (will add lg: prefix)
+    mobile?: string;
+    tablet?: string;
+    desktop?: string;
   };
 }
 
@@ -43,7 +43,7 @@ const getResponsiveVisibilityClasses = (props: {
   return classes.join(' ');
 };
 
-const CardImage: React.FC<{ 
+const CardImage = memo<{ 
   src: string; 
   alt: string;
   visibility?: {
@@ -59,7 +59,7 @@ const CardImage: React.FC<{
     tablet?: string;
     desktop?: string;
   } | undefined;
-}> = ({ src, alt, visibility }) => {
+}>(({ src, alt, visibility }) => {
   const visibilityClasses = visibility ? getResponsiveVisibilityClasses(visibility) : '';
   
   return (
@@ -71,7 +71,7 @@ const CardImage: React.FC<{
           height={400}
           width={400}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          quality={100}
+          quality={85}
           priority
           fetchPriority='high'
           className="object-contain object-bottom w-full h-full px-4"
@@ -79,16 +79,20 @@ const CardImage: React.FC<{
       </div>
     </div>
   );
-};
+});
 
-const CardContent: React.FC<{ title: string | React.ReactNode; description: string | React.ReactNode; titleId: string }> = ({ title, description, titleId }) => (
+CardImage.displayName = 'CardImage';
+
+const CardContent = memo<{ title: string | React.ReactNode; description: string | React.ReactNode; titleId: string }>(({ title, description, titleId }) => (
   <div className="absolute bottom-0 left-0 right-0 z-10 rounded-3xl w-full h-full flex flex-col justify-end p-8">
     <div id={titleId} className="font-semibold text-4xl lg:text-5xl">{title}</div>
     <p className="text-lg">{description}</p>
   </div>
-);
+));
 
-const CardThree: React.FC<CardThreeProps> = ({
+CardContent.displayName = 'CardContent';
+
+const CardThree = memo<CardThreeProps>(({
   title = "Default Title",
   description = "Default Description",
   imageSrc = "/default-image.webp",
@@ -109,6 +113,8 @@ const CardThree: React.FC<CardThreeProps> = ({
       <CardContent title={title} description={description} titleId={titleId} />
     </div>
   );
-};
+});
+
+CardThree.displayName = 'CardThree';
 
 export default CardThree;

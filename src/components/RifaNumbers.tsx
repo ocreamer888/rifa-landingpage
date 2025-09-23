@@ -1,9 +1,12 @@
 // app/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback, startTransition } from 'react';
+import dynamic from 'next/dynamic';
 import { supabase } from '../lib/supabaseClient';
-import TiloPayForm from './TiloPayForm';
+
+// dynamic import for the payment form
+const TiloPayForm = dynamic(() => import('./TiloPayForm'), { ssr: false });
 
 // Define the type for a single ticket
 type Ticket = {
@@ -24,9 +27,19 @@ export default function RifaNumbers() {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
 
-  // Stats
-  const soldCount = tickets.filter((t) => t.status === 'sold').length;
-  const availableCount = 500 - soldCount;
+  // Normalize to exactly 500 tickets (fill missing numbers as available)
+  const displayTickets = useMemo(() => {
+    const byNumber = new Map<number, Ticket>(tickets.map((t) => [t.ticket_number, t]));
+    return Array.from({ length: 500 }, (_, i) => {
+      const n = i + 1;
+      const t = byNumber.get(n);
+      return t ?? ({ id: -(n), ticket_number: n, status: 'available' } as Ticket);
+    });
+  }, [tickets]);
+
+  // Stats (memoized) based on normalized list
+  const soldCount = useMemo(() => displayTickets.reduce((acc, t) => acc + (t.status === 'sold' ? 1 : 0), 0), [displayTickets]);
+  const availableCount = useMemo(() => 500 - soldCount, [soldCount]);
 
   // Cleanup expired pending tickets
   const cleanupExpiredTickets = async () => {
@@ -46,7 +59,7 @@ export default function RifaNumbers() {
         if (result.cleaned > 0) {
           const { data, error } = await supabase
             .from('tickets')
-            .select('*')
+            .select('id,ticket_number,status')
             .order('ticket_number', { ascending: true });
 
           if (!error && data) {
@@ -64,7 +77,7 @@ export default function RifaNumbers() {
     const fetchTickets = async () => {
       const { data, error } = await supabase
         .from('tickets')
-        .select('*')
+        .select('id,ticket_number,status')
         .order('ticket_number', { ascending: true });
 
       if (error) {
@@ -81,10 +94,25 @@ export default function RifaNumbers() {
     cleanupExpiredTickets();
   }, []);
 
-  // Set up periodic cleanup every 2 minutes
+  // Set up periodic cleanup every 2 minutes, paused when tab hidden
   useEffect(() => {
-    const cleanupInterval = setInterval(cleanupExpiredTickets, 2 * 60 * 1000);
-    return () => clearInterval(cleanupInterval);
+    let interval: ReturnType<typeof setInterval> | null = null;
+
+    const start = () => {
+      if (!interval) interval = setInterval(cleanupExpiredTickets, 2 * 60 * 1000);
+    };
+    const stop = () => {
+      if (interval) { clearInterval(interval); interval = null; }
+    };
+
+    const onVisibilityChange = () => (document.hidden ? stop() : start());
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    start();
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      stop();
+    };
   }, []);
 
   // Subscribe to real-time updates
@@ -109,15 +137,17 @@ export default function RifaNumbers() {
     };
   }, []);
 
-  const handleTicketClick = (ticketNumber: number, status: string) => {
+  const handleTicketClick = useCallback((ticketNumber: number, status: string) => {
     if (status !== 'available') return; // Can't select sold/pending tickets
 
-    setSelectedTickets((prev) =>
-      prev.includes(ticketNumber)
-        ? prev.filter((n) => n !== ticketNumber)
-        : [...prev, ticketNumber]
-    );
-  };
+    startTransition(() => {
+      setSelectedTickets((prev) =>
+        prev.includes(ticketNumber)
+          ? prev.filter((n) => n !== ticketNumber)
+          : [...prev, ticketNumber]
+      );
+    });
+  }, []);
 
   const validateBeforePay = () => {
     if (selectedTickets.length === 0) {
@@ -130,13 +160,6 @@ export default function RifaNumbers() {
     }
     setError(null);
     return true;
-  };
-
-  const getTicketClass = (status: string, ticketNumber: number) => {
-    if (status === 'sold') return 'bg-red-500 cursor-not-allowed';
-    if (status === 'pending') return 'bg-yellow-500 cursor-not-allowed';
-    if (selectedTickets.includes(ticketNumber)) return 'bg-green-500 text-white';
-    return 'bg-gray-200 hover:bg-blue-400';
   };
 
   const TICKET_PRICE = 20; // Set your ticket price here
@@ -200,8 +223,8 @@ export default function RifaNumbers() {
     }
   };
 
-  // Get pending tickets count for display
-  const pendingCount = tickets.filter(t => t.status === 'pending').length;
+  // Get pending tickets count for display (memoized)
+  const pendingCount = useMemo(() => displayTickets.reduce((acc, t) => acc + (t.status === 'pending' ? 1 : 0), 0), [displayTickets]);
 
   return (
     <div id="ticket-grid" className="min-h-screen w-full justify-center items-center text-white md:p-8">
@@ -229,17 +252,13 @@ export default function RifaNumbers() {
             )}
         </div>
 
-        {/* Ticket Grid */}
-        <div className="grid grid-cols-5 sm:grid-cols-10 md:grid-cols-15 lg:grid-cols-20 gap-4 mb-8">
-          {tickets.map((ticket) => (
-            <div
-              key={ticket.id}
-              onClick={() => handleTicketClick(ticket.ticket_number, ticket.status)}
-              className={`flex items-center justify-center h-12 w-12 rounded-md font-bold text-black transition-colors ${getTicketClass(ticket.status, ticket.ticket_number)}`}
-            >
-              {ticket.ticket_number}
-            </div>
-          ))}
+        {/* Ticket Grid (virtualized) */}
+        <div className="mb-8">
+          <VirtualTicketGrid
+            tickets={displayTickets}
+            selected={selectedTickets}
+            onClick={handleTicketClick}
+          />
         </div>
 
         {/* Checkout Section */}
@@ -312,6 +331,36 @@ export default function RifaNumbers() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Virtualized ticket grid component
+function VirtualTicketGrid({
+  tickets,
+  selected,
+  onClick,
+}: {
+  tickets: Ticket[];
+  selected: number[];
+  onClick: (ticketNumber: number, status: string) => void;
+}) {
+  return (
+    <div className="grid grid-cols-5 sm:grid-cols-10 md:grid-cols-15 lg:grid-cols-20 gap-4">
+      {tickets.map((t) => {
+        const isSelected = selected.includes(t.ticket_number);
+        const base = 'flex items-center justify-center h-12 w-12 rounded-md font-bold transition-colors select-none';
+        const cls =
+          t.status === 'sold' ? 'bg-red-500 cursor-not-allowed text-black' :
+          t.status === 'pending' ? 'bg-yellow-500 cursor-not-allowed text-black' :
+          isSelected ? 'bg-green-500 text-white cursor-pointer' :
+          'bg-gray-200 hover:bg-blue-400 text-black cursor-pointer';
+        return (
+          <div key={t.id} className={`${base} ${cls}`} onClick={() => onClick(t.ticket_number, t.status)}>
+            {t.ticket_number}
+          </div>
+        );
+      })}
     </div>
   );
 }

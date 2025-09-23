@@ -1,69 +1,31 @@
 'use client';
+import React from 'react';
 
 interface LoadingProps {
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  text?: string;
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
-  color?: string;
 }
 
-export default function Loading({ 
-  size = 'md', 
-  className = '',
-  color = 'currentColor'
-}: LoadingProps) {
+const Loading: React.FC<LoadingProps> = ({ 
+  text = "Loading...", 
+  size = 'md',
+  className = ""
+}) => {
   const sizeClasses = {
-    xs: 'loading-xs',
-    sm: 'loading-sm', 
-    md: 'loading-md',
-    lg: 'loading-lg',
-    xl: 'loading-xl'
+    sm: 'h-4 w-4',
+    md: 'h-8 w-8',
+    lg: 'h-12 w-12'
   };
 
   return (
-    <span 
-      className={`loading loading-infinity ${sizeClasses[size]} ${className}`}
-      style={{ color }}
-      aria-label="Loading"
-    >
-    </span>
-  );
-}
-
-// Example usage component showing all sizes
-export function LoadingShowcase() {
-  return (
-    <div className="flex flex-col items-center gap-4 p-8">
-      <h2 className="text-2xl font-bold mb-4">Loading Component Sizes</h2>
-      
-      <div className="flex items-center gap-4">
-        <Loading size="xs" />
-        <span className="text-sm">Extra Small</span>
-      </div>
-      
-      <div className="flex items-center gap-4">
-        <Loading size="sm" />
-        <span className="text-sm">Small</span>
-      </div>
-      
-      <div className="flex items-center gap-4">
-        <Loading size="md" />
-        <span className="text-sm">Medium (default)</span>
-      </div>
-      
-      <div className="flex items-center gap-4">
-        <Loading size="lg" />
-        <span className="text-sm">Large</span>
-      </div>
-      
-      <div className="flex items-center gap-4">
-        <Loading size="xl" />
-        <span className="text-sm">Extra Large</span>
-      </div>
-      
-      <div className="flex items-center gap-4 mt-4">
-        <Loading size="md" color="#ef4444" />
-        <span className="text-sm">Custom Color (Red)</span>
+    <div className={`flex items-center justify-center p-8 ${className}`}>
+      <div className="text-center">
+        <div className={`animate-spin rounded-full border-b-2 border-blue-500 mx-auto mb-4 ${sizeClasses[size]}`}></div>
+        <p className="text-gray-600">{text}</p>
       </div>
     </div>
   );
-}
+};
+
+export default Loading;
