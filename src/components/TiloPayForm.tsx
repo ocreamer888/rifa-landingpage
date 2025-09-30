@@ -537,25 +537,12 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
     sdkStateRef.current.selectedMethod = method;
     setUiState(prev => ({ ...prev, selectedMethod: method }));
     
-    // Update SDK element
+    // Update SDK element (hidden select) correctly
     const hiddenSelect = sdkElementsRef.current.paymentMethod;
     if (hiddenSelect) {
-      // Instead of directly setting value, trigger a change event
-      const event = new Event('change', { bubbles: true });
-      Object.defineProperty(event, 'target', {
-        value: hiddenSelect,
-        enumerable: true
-      });
-      Object.defineProperty(event.target, 'value', {
-        value: method,
-        enumerable: true,
-        writable: true // Add this to make it writable
-      });
-      
-      // Trigger the SDK event handler
-      if (hiddenSelect.onchange) {
-        hiddenSelect.onchange(event);
-      }
+      // Set the value and dispatch a native change event so SDK listeners run
+      hiddenSelect.value = method;
+      hiddenSelect.dispatchEvent(new Event('change', { bubbles: true }));
     }
     
     if (method) {
@@ -718,11 +705,14 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
       )}
 
       {/* Payment Method Selection */}
-      <div>
+            {/* Payment Method Selection */}
+            <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Método de Pago
         </label>
         <select
+          id="paymentMethod"
+          name="paymentMethod"
           value={uiState.selectedMethod}
           onChange={(e) => handlePaymentMethodChange(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -749,6 +739,8 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
               Número de Teléfono
             </label>
             <input
+              id="phoneNumber"
+              name="phoneNumber"
               type="tel"
               value={uiState.phoneNumber}
               onChange={(e) => handlePhoneNumberChange(e.target.value)}
@@ -792,6 +784,8 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
                 Usar Tarjeta Guardada
               </label>
               <select
+                id="savedCard"
+                name="savedCard"
                 value={sdkStateRef.current.selectedCard}
                 onChange={(e) => {
                   sdkStateRef.current.selectedCard = e.target.value;
@@ -809,11 +803,14 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
           )}
 
           {/* New Card Details */}
-          <div>
+                    {/* New Card Details */}
+                    <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Número de Tarjeta
             </label>
             <input
+              id="cardNumber"
+              name="cardNumber"
               type="text"
               value={uiState.cardNumber}
               onChange={(e) => handleCardNumberChange(e.target.value)}
@@ -825,11 +822,13 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
+          <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Fecha de Expiración
               </label>
               <input
+                id="cardExpiration"
+                name="cardExpiration"
                 type="text"
                 value={uiState.cardExpiration}
                 onChange={(e) => handleCardExpirationChange(e.target.value)}
@@ -844,6 +843,8 @@ export default function TiloPayForm({ order, selectedTickets, onPaymentSuccess, 
                 CVV
               </label>
               <input
+                id="cvv"
+                name="cvv"
                 type="text"
                 value={uiState.cvv}
                 onChange={(e) => handleCvvChange(e.target.value)}
