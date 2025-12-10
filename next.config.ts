@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  reactCompiler: true,
 
   experimental: {
     optimizePackageImports: ['@supabase/supabase-js', 'lucide-react']

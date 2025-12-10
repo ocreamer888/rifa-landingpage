@@ -1,7 +1,25 @@
-import { supabase } from '@/lib/supabaseClient';
+import { createSupabaseServerClient } from '@/lib/supabase-server';
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
+    // Validate authentication - accept either:
+    // 1. Vercel Cron: x-vercel-cron-auth-token header (for production cron jobs)
+    // 2. Custom: Authorization Bearer token (for manual/local testing)
+    const vercelCronToken = request.headers.get('x-vercel-cron-auth-token');
+    const authHeader = request.headers.get('Authorization');
+    
+    const cronSecret = process.env['CRON_SECRET'];
+    const cleanupSecret = process.env['CLEANUP_API_SECRET'];
+    
+    const isVercelCronValid = cronSecret && vercelCronToken === cronSecret;
+    const isCustomAuthValid = cleanupSecret && authHeader === `Bearer ${cleanupSecret}`;
+    
+    if (!isVercelCronValid && !isCustomAuthValid) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    
+    const supabase = await createSupabaseServerClient();
+    
     // For now, we'll use a simple approach: find orders that are pending
     // and have been created more than 10 minutes ago using the order_number timestamp
     const tenMinutesAgo = Date.now() - (10 * 60 * 1000);
@@ -87,7 +105,7 @@ export async function POST() {
   }
 }
 
-export async function GET() {
-  // Allow GET requests for manual cleanup triggers
-  return POST();
+export async function GET(request: Request) {
+  // Allow GET requests for manual cleanup triggers (with same auth)
+  return POST(request);
 }
