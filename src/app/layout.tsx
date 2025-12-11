@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     description: '¡Gana un viaje todo incluido para dos personas a Colombia más un diseño de sonrisa! Sortearemos únicamente 500 números.',
     images: [
       {
-        url: '/Rifa-art-1.webp',
+        url: '/Rifa-art-4.webp',
         width: 1200,
         height: 630,
         alt: 'Sorteo Colombia Tour- Gana un viaje a Colombia + Diseño de Sonrisa',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sorteo Colombia Tour - Gana un viaje a Colombia + Diseño de Sonrisa',
     description: '¡Gana un viaje todo incluido para dos personas a Colombia más un diseño de sonrisa! Sortearemos únicamente 500 números.',
-    images: ['/Rifa-art-1.webp'],
+    images: ['/Rifa-art-4.webp'],
   },
 };
 
