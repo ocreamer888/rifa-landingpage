@@ -29,7 +29,7 @@ export default function SegundoPremio() {
                         <h5 className="text-2xl md:text-3xl lg:text-4xl"></h5>
                     }
                     description=""
-                    imageSrc="/RifaDoc.webp"
+                    imageSrc="/bubalu-png-05.png"
                     imageAlt=""
                     className="h-full w-full pt-4"
                     /> 
