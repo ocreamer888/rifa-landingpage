@@ -7,8 +7,8 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
 
 // SINPE Configuration - Update these values
 const SINPE_CONFIG = {
-  phoneNumber: '8888-8888', // Replace with actual SINPE phone number
-  accountHolder: 'Nombre del Titular', // Replace with actual account holder name
+  phoneNumber: '6113-9008', // Replace with actual SINPE phone number
+  accountHolder: 'Jean Pierre', // Replace with actual account holder name
   reservationMinutes: 10, // Minutes before reservation expires
 };
 
@@ -362,7 +362,7 @@ export default function RifaNumbers() {
   };
 
   return (
-    <div id="ticket-grid" className="min-h-screen w-full justify-center items-center text-white md:p-4">
+    <div id="ticket-grid" className="min-h-screen w-full justify-center items-center text-white p-4">
       <div className="w-full mx-auto backdrop-blur p-8 rounded-3xl bg-black/80">
         <header className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-2">¡Compra Tu Número de La Suerte!</h1>
@@ -420,8 +420,8 @@ export default function RifaNumbers() {
         </div>
 
         {/* Checkout Section */}
-        <div className="bg-gray-800 p-6 rounded-3xl">
-          <h2 className="text-2xl font-bold mb-4">Números Seleccionados</h2>
+        <div className="bg-gray-800 p-4 rounded-3xl">
+          <h2 className="text-2xl font-bold p-4">Números Seleccionados</h2>
           {selectedTickets.length > 0 ? (
             <>
               <div className="mb-4 p-3 bg-gray-700/50 rounded-lg">
@@ -444,7 +444,7 @@ export default function RifaNumbers() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Tu nombre completo"
-                    className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full p-3 rounded-full bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -454,7 +454,7 @@ export default function RifaNumbers() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="tu@email.com"
-                    className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full p-3 rounded-full bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -463,8 +463,8 @@ export default function RifaNumbers() {
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    placeholder="8888-8888"
-                    className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    placeholder="Tu número de SINPE"
+                    className="w-full p-3 rounded-full bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -472,7 +472,7 @@ export default function RifaNumbers() {
               <button
                 onClick={createOrder}
                 disabled={loading}
-                className="w-full px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-lg font-bold rounded-xl hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02]"
+                className="w-full px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white text-lg font-bold rounded-3xl hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02]"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -578,8 +578,8 @@ export default function RifaNumbers() {
                     </div>
                   </div>
                   
-                  <p className="text-slate-400 text-sm mt-4">
-                    <strong className="text-amber-400">Importante:</strong> Incluye el número de orden en la descripción del SINPE para facilitar la verificación.
+                  <p className="text-gray-200 text-sm mt-4">
+                    <strong className="text-amber-400">Importante:</strong> Haz la transacción desde el número SINPE registrado en la app o incluye el número de orden en la descripción del SINPE para facilitar la verificación.
                   </p>
                 </div>
               )}

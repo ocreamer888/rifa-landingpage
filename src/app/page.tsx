@@ -3,6 +3,7 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import Loading from '@/components/Loading';
 import Landing from '@/components/Landing';
+import Sponsors from '@/components/Sponsors';
 
 
 const TripSection = dynamic(() => import('@/components/TripSection'), {
@@ -20,6 +21,10 @@ const HomeHero = dynamic(() => import('@/components/HomeHero'), {
   ssr: true
 });
 
+const SegundoPremio = dynamic(() => import('@/components/SegundoPremio'), {
+  loading: () => <Loading text="Loading segundo premio section..." />,
+  ssr: true
+});
 export default function HomePage() {
   return (
     <>
@@ -34,7 +39,15 @@ export default function HomePage() {
       <Suspense fallback={<Loading text="Loading dental section..." />}>
         <DentalSection />
       </Suspense>
-      
+
+      <Suspense fallback={<Loading text="Loading second prize section..." />}>
+        <SegundoPremio />
+      </Suspense>
+
+      <Suspense fallback={<Loading text="Loading sponsors section..." />}>
+        <Sponsors />
+      </Suspense>
+
       <Suspense fallback={<Loading text="Loading tickets..." size="lg" />}>
         <Landing />
       </Suspense>

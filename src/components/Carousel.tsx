@@ -36,7 +36,7 @@ const FadeCarousel = memo(() => {
   }, [nextSlide]);
 
   return (
-    <div className="relative w-full bg-gray-900 overflow-hidden rounded-3xl md:rounded-r-3xl md:rounded-l-none shadow-2xl">
+    <div className="relative w-full bg-gray-900 overflow-hidden rounded-b-3xl md:rounded-b-none md:rounded-r-3xl! shadow-2xl">
       {/* Main carousel container */}
       <div className="relative h-96 md:h-[500px]">
         {images.map((image, index) => (

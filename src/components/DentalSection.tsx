@@ -4,13 +4,13 @@ import VideoContainer from "./VideoContainer"
 
 export default function DentalSection() {
     return (
-        <div className="relative flex flex-col items-center w-full py-20 px-4">
+        <div className="relative flex flex-col items-center w-full pt-8 px-4">
             {/* Content */}
-            <div className="flex flex-col md:flex-row w-full items-center justify-around text-center gap-4 backdrop-blur p-8 rounded-3xl bg-white mb-8">
+            <div className="flex flex-col md:flex-row w-full items-center justify-around text-center gap-4 backdrop-blur p-8 rounded-3xl bg-black/50 border border-white/20 mb-8">
                 {/* Section Title */}
                 <div className="flex flex-col w-full lg:w-2/5 justify-center items-center md:items-start md:justify-start gap-4">
                 <h2 
-                    className="text-gray-800"
+                    className="text-gray-100"
                     style={{
                         fontFamily: 'Poppins, sans-serif',
                         fontSize: '36px',
@@ -24,7 +24,7 @@ export default function DentalSection() {
                 
                 {/* Description */}
                 <p 
-                    className="text-gray-800 text-center md:text-left"
+                    className="text-gray-100 text-center md:text-left"
                     style={{
                         fontFamily: 'Poppins, sans-serif',
                         fontSize: '18px',

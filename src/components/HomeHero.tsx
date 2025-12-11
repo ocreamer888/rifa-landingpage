@@ -6,13 +6,13 @@ export default function Home() {
    <div className="flex flex-col justify-center items-center">
   <HeroSecs 
     title={
-      <div className="flex flex-col justify-top items-center lg:items-start leading-none tracking-tight text-balance w-full md:pt-0">
-        <div className="whitespace-nowrap font-sans uppercase font-semibold tracking-[-0.04em] text-[clamp(2rem,3vw,4rem)]">
+      <div className="flex flex-col justify-top items-center lg:items-start leading-none tracking-tight text-balance w-full max-w-lg md:max-w-xl lg:max-w-none md:pt-0">
+        <div className="whitespace-nowrap font-sans uppercase font-semibold tracking-[-0.04em] text-[clamp(1.5rem,4vw,2.5rem)] md:text-[clamp(1.75rem,3.5vw,2.5rem)] lg:text-[clamp(2rem,3vw,4rem)]">
           ¡Gana un viaje a
         </div>
         <div className="whitespace-nowrap flex items-baseline gap-3">
 
-          <span className="font-serif font-light italic tracking-[-0.06em] text-[clamp(4rem,5.8vw,9rem)]">
+          <span className="font-serif font-light italic tracking-[-0.06em] text-[clamp(3rem,8vw,5rem)] md:text-[clamp(3.5rem,6vw,6rem)] lg:text-[clamp(4rem,5.8vw,9rem)]">
             Colombia !
           </span>
         </div>
@@ -29,9 +29,9 @@ export default function Home() {
 
     imageSrc="/Rifa-art-2.webp"
     imageSize={{
-      mobile: "w-full h-full",
-      tablet: ""
-      // Remove desktop property - it will use the default
+      mobile: "w-full h-full max-w-sm max-h-80",
+      tablet: "w-1/2 h-1/2 max-w-md max-h-96",
+      desktop: "w-2/5 h-2/5 max-w-lg max-h-[500px]"
     }}
     CardImageClassName="w-2/5 h-2/5"
     imageVisibility={{showOnMobile: true}}
@@ -45,7 +45,7 @@ export default function Home() {
     buttonSize="md"
     buttonRounded="full"
     buttonUppercase={true}
-    buttonClassName="bg-orange-400 text-white hover:bg-black hover:text-orange-500 border border-white/90"
+    buttonClassName="bg-orange-400 text-white hover:bg-black hover:text-orange-500 border border-white/50"
     className="p-4 lg:p-12 h-screen"
     CardContentClassName="h-auto flex flex-col justify-center items-center text-white backdrop-blur-xl p-8 rounded-3xl border border-white/10 shadow-lg bg-black/40"
     linkHref="#ticket-grid"
