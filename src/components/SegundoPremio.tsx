@@ -20,7 +20,6 @@ export default function SegundoPremio() {
                 </p>
                
                 </div>
-
                 {/* Doctor Card */}
                 <div className="@container flex flex-col justify-center items-center gap-4 overflow-hidden w-full max-w-sm lg:max-w-md aspect-square lg:aspect-[4/3] min-h-[300px] lg:min-h-[400px]">
                 <CardThree
@@ -32,14 +31,9 @@ export default function SegundoPremio() {
                     imageSrc="/bubalu-png-05.png"
                     imageAlt=""
                     className="h-full w-full pt-4"
-                    /> 
-                  
-                  
-                </div>
-            
+                    />           
+                </div>     
             </div>
-            
-
         </div>
     )
 }

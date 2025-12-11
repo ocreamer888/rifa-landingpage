@@ -16,8 +16,26 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'Sorteo - Gana un viaje a Colombia + Diseño de Sonrisa',
+  title: 'Sorteo Colombia Tour - Gana un viaje a Colombia + Diseño de Sonrisa',
   description: '¡Gana un viaje todo incluido para dos personas a Colombia más un diseño de sonrisa! Sortearemos únicamente 500 números.',
+  openGraph: {
+    title: 'Sorteo Colombia Tour - Gana un viaje a Colombia + Diseño de Sonrisa',
+    description: '¡Gana un viaje todo incluido para dos personas a Colombia más un diseño de sonrisa! Sortearemos únicamente 500 números.',
+    images: [
+      {
+        url: '/Rifa-art-1.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Sorteo Colombia Tour- Gana un viaje a Colombia + Diseño de Sonrisa',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sorteo Colombia Tour - Gana un viaje a Colombia + Diseño de Sonrisa',
+    description: '¡Gana un viaje todo incluido para dos personas a Colombia más un diseño de sonrisa! Sortearemos únicamente 500 números.',
+    images: ['/Rifa-art-1.webp'],
+  },
 };
 
 export default function RootLayout({
