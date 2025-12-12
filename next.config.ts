@@ -66,7 +66,7 @@ const nextConfig: NextConfig = {
               "font-src 'self' https://fonts.gstatic.com data:",
               "img-src 'self' data: blob: https:",
               "connect-src 'self' https://*.supabase.co https://*.supabase.in wss://*.supabase.co wss://*.supabase.in",
-              "frame-src 'self'",
+              "frame-src 'self' https://www.google.com",
               "object-src 'none'",
               "base-uri 'self'",
               "form-action 'self'",

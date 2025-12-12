@@ -362,8 +362,8 @@ export default function RifaNumbers() {
   };
 
   return (
-    <div id="ticket-grid" className="min-h-screen w-full justify-center items-center text-white p-4">
-      <div className="w-full mx-auto backdrop-blur p-8 rounded-3xl bg-black/80">
+    <div id="ticket-grid" className="min-h-screen w-full justify-center items-center text-white pb-12">
+      <div className="w-full mx-auto backdrop-blur p-2 py-8 rounded-3xl bg-black/80">
         <header className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-2">¡Compra Tu Número de La Suerte!</h1>
           <p className="text-xl text-gray-100">500 Números, 1 Gran Premio</p>

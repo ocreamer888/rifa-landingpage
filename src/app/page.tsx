@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 import Loading from '@/components/Loading';
 import Landing from '@/components/Landing';
 import Sponsors from '@/components/Sponsors';
+import Footer from '@/components/Footer';
+import ContactInfo from '@/components/ContactInfo';
 
 
 const TripSection = dynamic(() => import('@/components/TripSection'), {
@@ -51,6 +53,15 @@ export default function HomePage() {
       <Suspense fallback={<Loading text="Loading tickets..." size="lg" />}>
         <Landing />
       </Suspense>
+
+      <Suspense fallback={<Loading text="Loading contact info..." />}>
+        <ContactInfo />
+      </Suspense>
+
+      <Suspense fallback={<Loading text="Loading footer..." />}>
+        <Footer />
+      </Suspense>
     </>
+
   );
 }
