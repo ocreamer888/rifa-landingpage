@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Poppins, Playfair_Display } from 'next/font/google';
 import './globals.css';
-import Script from 'next/script';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -48,10 +47,6 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <Script
-          src="https://app.tilopay.com/sdk/v2/sdk_tpay.min.js"
-          strategy="afterInteractive"
-        />
       </head>
       <body 
         className={`${poppins.variable} ${playfairDisplay.variable} fixed-bg`}

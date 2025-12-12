@@ -11,7 +11,6 @@ The landing page must:
   1. how many tickets are available
   2. how many tickets have been sold
 - user friendly
-- handle payments with TiloPay 
 - use supabase to store data about payments
 
 
