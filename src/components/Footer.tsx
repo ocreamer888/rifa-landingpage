@@ -94,7 +94,7 @@ function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-100 hover:text-white text-xs transition-colors duration-300"
               >
-                Creado por <span className="font-medium">Ocreamer Studio</span>
+                Creado por <span className="font-semibold text-white hover:text-gray-200 hover:underline transition-colors duration-300 text-lg">Ocreamer Studio</span>
               </a>
             </div>
           </div>
