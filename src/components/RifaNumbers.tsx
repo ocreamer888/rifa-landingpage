@@ -7,8 +7,8 @@ import type { RealtimeChannel } from '@supabase/supabase-js';
 
 // SINPE Configuration - Update these values
 const SINPE_CONFIG = {
-  phoneNumber: '6113-9008', // Replace with actual SINPE phone number
-  accountHolder: 'Jean Pierre', // Replace with actual account holder name
+  phoneNumber: '83484468', // Replace with actual SINPE phone number
+  accountHolder: 'Kenny Spence Murrell', // Replace with actual account holder name
   reservationMinutes: 10, // Minutes before reservation expires
 };
 

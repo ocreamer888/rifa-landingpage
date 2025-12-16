@@ -77,8 +77,8 @@ export default function ReglasPage() {
                 </h2>
                 <ul className="list-disc list-inside ml-4 space-y-2 mt-2">
                   <li><strong>Adquisición:</strong> El participante adquiere un tiquete digital/acción numerada mediante compra directa.</li>
-                  <li><strong>Medio de Pago:</strong> El pago se realizará exclusivamente vía SINPE Móvil al número oficial: 61139008 a nombre de JEAN PIERRE SANCHEZ MOSQUERA.</li>
-                  <li><strong>Validación:</strong> Para que la participación sea válida, el usuario deberá agregar su nombre legal completo, el número de SINPE desde el que se hará el pago del tiquete y su correo electrónico. El ganador deberá enviar el comprobante de la transacción al +50661139008 indicando su nombre completo y número de cédula. El Organizador confirmará el número asignado.</li>
+                  <li><strong>Medio de Pago:</strong> El pago se realizará exclusivamente vía SINPE Móvil al número oficial: 83484468 a nombre de Kenny Spence Murrell.</li>
+                  <li><strong>Validación:</strong> Para que la participación sea válida, el usuario deberá agregar su nombre legal completo, el número de SINPE desde el que se hará el pago del tiquete y su correo electrónico. El ganador deberá enviar el comprobante de la transacción al +50683484468 indicando su nombre completo y número de cédula. El Organizador confirmará el número asignado.</li>
                 </ul>
               </section>
 

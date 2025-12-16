@@ -80,7 +80,7 @@ export default function TerminosPage() {
                 <ul className="list-disc pl-6 mt-2 space-y-2">
                   <li><strong>Reservación:</strong> El usuario selecciona su(s) número(s) en la plataforma.</li>
                   <li><strong>Ventana de Pago (10 Minutos):</strong> A partir del momento en que se genera la reservación en el sitio web, el usuario dispone de 10 minutos exactos para realizar el pago vía SINPE Móvil y enviar el comprobante.</li>
-                  <li><strong>Envío de Comprobante:</strong> El comprobante de pago debe enviarse vía WhatsApp al número +50661139008 indicando el nombre completo y número de pedido.</li>
+                  <li><strong>Envío de Comprobante:</strong> El comprobante de pago debe enviarse vía WhatsApp al número +50683484468 indicando el nombre completo y número de pedido.</li>
                   <li><strong>Liberación de Números:</strong> Si transcurridos los 10 minutos el Organizador no ha recibido el comprobante válido, el sistema liberará automáticamente los números reservados, dejándolos disponibles para otro comprador. El Organizador no se hace responsable si el usuario paga después de este tiempo y pierde su número.</li>
                   <li><strong>Política de No Reembolso:</strong> Una vez confirmado el pago y emitido el boleto digital, el dinero no es reembolsable bajo ninguna circunstancia.</li>
                 </ul>
@@ -201,7 +201,7 @@ export default function TerminosPage() {
                   Para consultas relacionadas con este reglamento o el estado de su pedido, puede contactar al soporte a través de:
                 </p>
                 <ul className="list-disc pl-6 mt-2 space-y-1">
-                  <li>WhatsApp: <a href="https://wa.me/50661139008" className="text-blue-400 hover:text-blue-300 underline">+50661139008</a></li>
+                  <li>WhatsApp: <a href="https://wa.me/50683484468" className="text-blue-400 hover:text-blue-300 underline">+50683484468</a></li>
                   <li>Correo Electrónico: <a href="mailto:JEANPEMOS2@GMAIL.COM" className="text-blue-400 hover:text-blue-300 underline">JEANPEMOS2@GMAIL.COM</a></li>
                 </ul>
               </section>

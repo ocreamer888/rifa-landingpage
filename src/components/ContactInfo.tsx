@@ -6,7 +6,7 @@ function ContactInfo() {
     {
       icon: MessageCircle,
       label: 'WhatsApp',
-      href: 'https://wa.me/50661139008',
+      href: 'https://wa.me/50683484468',
       color: 'text-green-400 hover:text-green-300',
       bgColor: 'hover:bg-green-500/10'
     },
