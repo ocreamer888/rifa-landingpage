@@ -411,7 +411,7 @@ export default function RifaNumbers() {
         </div>
 
         {/* Ticket Grid */}
-        <div className="mb-8">
+        <div className="mb-8 flex justify-center">
           <VirtualTicketGrid
             tickets={displayTickets}
             selected={selectedTickets}
@@ -432,8 +432,52 @@ export default function RifaNumbers() {
                 Cantidad: <span className="font-bold">{selectedTickets.length}</span>
               </p>
               <p className="text-2xl mb-6 text-green-400">
-                Total: <span className="font-bold">${selectedTickets.length * TICKET_PRICE}</span>
+                Total: <span className="font-bold">₡{(selectedTickets.length * TICKET_PRICE * 500).toLocaleString()}</span>
               </p>
+              
+              {/* Instrucciones Paso a Paso */}
+              <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+                <h3 className="text-lg font-bold text-blue-100 mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  ¿Cómo funciona? ¡Es muy fácil!
+                </h3>
+                <ol className="space-y-4 text-sm text-gray-300">
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">1</span>
+                    <span>Primero, escribe tu nombre completo en la casilla de abajo. ¡Como te llamas de verdad!</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">2</span>
+                    <span>Luego, escribe tu correo electrónico (tu email). Es como tu dirección de carta, pero por internet.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">3</span>
+                    <span>Después, escribe tu número de teléfono. Este es el número que usas para hacer pagos con SINPE.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">4</span>
+                    <span>Cuando termines de escribir todo, presiona el botón verde que dice "Reservar y Ver Instrucciones de Pago".</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">5</span>
+                    <span>¡Aparecerá una ventana con las instrucciones! Ahí verás a qué número enviar el dinero por SINPE.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">6</span>
+                    <span>Haz el pago desde tu app de banco usando SINPE Móvil. Envía exactamente el monto que te dice.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">7</span>
+                    <span>Cuando ya hayas hecho el pago, presiona el botón que dice "¡Ya Realicé el Pago!" para que sepamos que pagaste.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center font-bold text-xs">8</span>
+                    <span>¡Listo! Espera a que confirmen tu pago. Te enviaremos un correo cuando todo esté listo. ¡Ya tienes tus números de la suerte!</span>
+                  </li>
+                </ol>
+              </div>
               
               {/* Customer Info Form */}
               <div className="space-y-4 mb-6">
@@ -653,7 +697,7 @@ function VirtualTicketGrid({
   onClick: (ticketNumber: number, status: string) => void;
 }) {
   return (
-    <div className="grid grid-cols-5 sm:grid-cols-10 md:grid-cols-15 lg:grid-cols-20 gap-4">
+    <div className="grid grid-cols-5 sm:grid-cols-10 md:grid-cols-15 lg:grid-cols-20 gap-4 justify-items-center mx-auto">
       {tickets.map((t) => {
         const isSelected = selected.includes(t.ticket_number);
         const base = 'flex items-center justify-center h-12 w-12 rounded-md font-bold transition-colors select-none';
